@@ -53,3 +53,9 @@ rsconnect/
 src/*.o
 src/*.so
 src/*.dll
+
+# Quarto output and reproducible teaching-demo artifacts
+.quarto/
+_output/
+_demo/
+*_files/

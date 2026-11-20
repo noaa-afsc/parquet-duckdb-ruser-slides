@@ -1,0 +1,651 @@
+---
+title: "From files to findings"
+subtitle: "Parquet + DuckDB for reproducible fisheries science in R"
+author: "NMFS R User Group"
+lang: en
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(DBI)
+library(duckdb)
+library(dplyr)
+library(dbplyr)
+options(width = 90, dplyr.summarise.inform = FALSE)
+dir.create("_demo", showWarnings = FALSE)
+```
+
+## A science question, not a database project
+
+**How did observed catch per unit effort change by year and stratum?**
+
+- Start with a tow-level survey extract.
+- Create a typed, reusable data snapshot.
+- Query only what an analysis needs.
+- Deliver a table and figure for a technical report or manuscript.
+- Let a collaborator rerun the analysis without a database server.
+
+::: notes
+Suggested session: 45–60 minutes, including the exercise. Audience: intermediate
+to advanced R users. The same pattern works for observer summaries, acoustic
+observations, environmental covariates, and simulation ensembles, subject to
+appropriate access controls.
+:::
+
+## What you will be able to do
+
+1. Explain columnar storage, row groups, and selective reads.
+2. Read and write Parquet using R and DuckDB.
+3. Use SQL **or** dplyr without pulling the entire dataset into R.
+4. Choose local files, GCS objects, or a database deliberately.
+5. Publish traceable analysis inputs and outputs.
+
+**Core demo:** runs locally after package installation.  
+**Cloud snippets:** illustrative, not executed; require your approved environment.
+
+## Keep three layers separate
+
+| Layer | Examples | Responsibility |
+|---|---|---|
+| File format | CSV, Parquet | Encode data on disk |
+| Query engine | DuckDB, PostgreSQL, Oracle | Execute queries |
+| Storage / compute | Laptop, GCS / GCP VM | Hold bytes / run work |
+
+**Parquet is not a database. DuckDB is not a cloud storage service.**
+
+GCS is object storage in Google Cloud (GCP); it does not execute SQL.
+
+# Why Parquet?
+
+## CSV is a useful interchange format
+
+But repeated analysis of large CSV extracts has costs:
+
+- Parse text and infer types each time.
+- Read through records even when using only a few columns.
+- Resolve ambiguous dates, missing values, encodings, and identifiers.
+- Reconstruct the same schema separately in each analysis.
+
+Keep CSV for small handoffs and inspection. Do not equate “text” with
+“self-documenting”: units and scientific meaning still need a data dictionary.
+
+## Parquet: typed, compressed, column-oriented
+
+- An open, binary format supported by many languages and engines.
+- Stores a schema: numbers, strings, dates, nested structures, and nulls.
+- Encodes and compresses similar values together within columns.
+- Supports selective reads rather than always decoding the whole table.
+
+**Typical benefit:** repeated analytical scans of a subset of columns.
+
+**Not guaranteed:** smaller files or faster queries for every dataset.
+
+::: {.source}
+[Apache Parquet overview](https://parquet.apache.org/docs/overview/)
+:::
+
+## Inside one Parquet file
+
+```text
+survey.parquet
+├── Row group 1: a horizontal batch of rows
+│   ├── year column chunk       → compressed pages
+│   ├── stratum column chunk    → compressed pages
+│   └── catch_kg column chunk   → compressed pages
+├── Row group 2: the next batch
+│   └── the same column structure
+└── Footer: schema, row-group locations, column statistics
+```
+
+Read `year` and `catch_kg`? Skip the other column chunks.  
+Filter `year = 2024`? Statistics **may** let the reader skip row groups.
+
+::: notes
+Statistics such as minimum and maximum values can rule out a row group. They
+cannot guarantee skipping if values overlap every group, statistics are absent,
+or expressions cannot be pushed down. Sorting or clustering by frequent filter
+columns can help. Not every reader uses every available Parquet optimization.
+:::
+
+## Three different kinds of skipping
+
+| Optimization | What gets skipped? | Example |
+|---|---|---|
+| Projection pushdown | Unused columns | Select only catch and effort |
+| Predicate pushdown | Row groups/pages where supported | Filter a date range |
+| Partition pruning | Entire files/directories | `year=2024/` |
+
+These are related, **not interchangeable**.
+
+One tiny file will not demonstrate large-scale speedups. We will verify
+correctness, not promise a benchmark.
+
+## Choose formats by the work
+
+| Format | Good fit | Watch out for |
+|---|---|---|
+| CSV | Small, broadly readable exchange | No enforced schema; parsing |
+| RDS | R-specific objects and models | R-centric; not a selective tabular scan |
+| Parquet | Shared analytical tables | Not row-by-row editing or a full R object |
+| Database tables | Managed, mutable shared records | Server administration and access |
+
+Parquet preserves supported data types, **not all R semantics**:
+factor levels, custom attributes, units, and time-zone behavior need explicit checks.
+
+## File layout matters on GCS
+
+```text
+gs://YOUR_BUCKET/survey/releases/v1/
+  year=2022/part-000.parquet
+  year=2023/part-000.parquet
+  year=2024/part-000.parquet
+```
+
+- Hive-style partition names can expose `year` as a query column.
+- Choose coarse partitions used by common filters; avoid one file per tow.
+- Too many tiny objects add listing and request overhead.
+- Start with moderately sized files; tune file/row-group sizes using real queries.
+
+::: notes
+Partitioning is a dataset layout convention, not a requirement of Parquet.
+A Parquet file is immutable in normal use: updates generally rewrite files.
+Do not treat directory listings as transactions or overwrite a published
+snapshot while collaborators are reading it.
+:::
+
+# DuckDB: an analytical engine inside R
+
+## No server required
+
+- Embedded, in-process SQL engine; runs in your R session.
+- Columnar, vectorized execution for scans, joins, and aggregations.
+- Queries Parquet directly without importing it into a database first.
+- Can use multiple CPU cores and spill many operations to local disk.
+- Integrates with **DBI**, **dbplyr**, and the wider Arrow ecosystem.
+
+Your laptop or VM does the work. “In-process” does not mean “unlimited memory.”
+
+::: {.source}
+[DuckDB introduction](https://duckdb.org/docs/stable/)
+:::
+
+## The example dataset
+
+**Synthetic teaching data — not NMFS observations or an abundance index.**
+
+| Field | Meaning |
+|---|---|
+| `tow_id` | Unique teaching tow identifier |
+| `year`, `tow_date` | Survey year and date |
+| `stratum` | `shelf` or `slope` |
+| `species` | Illustrative `pollock` label |
+| `catch_kg` | Catch in kg; one missing value, one true zero |
+| `effort_km2` | Swept area in km²; strictly positive |
+
+24 tows, 2022–2024. Source: repository `data/survey.csv`, created for this deck.
+
+## Read with an explicit schema
+
+```{r}
+#| label: load-survey
+survey <- read.csv(
+  "data/survey.csv", na.strings = "NA",
+  colClasses = c("character", "integer", "character", "character",
+                "character", "numeric", "numeric")
+)
+survey$tow_date <- as.Date(survey$tow_date)
+stopifnot(
+  nrow(survey) == 24L, !anyDuplicated(survey$tow_id),
+  !anyNA(survey$effort_km2), all(survey$effort_km2 > 0),
+  all(survey$catch_kg >= 0, na.rm = TRUE),
+  sum(is.na(survey$catch_kg)) == 1L
+)
+knitr::kable(head(survey, 3))
+```
+
+::: notes
+These checks encode assumptions about this particular teaching fixture. A
+production validation step should also check allowed species/strata, date ranges,
+join keys, units, confidentiality, and schema compatibility.
+:::
+
+## Connect and write a Parquet snapshot
+
+```{r}
+#| label: write-parquet
+con <- dbConnect(duckdb(), dbdir = ":memory:")
+duckdb_register(con, "survey_r", survey)
+dbExecute(con, "
+  COPY (SELECT * FROM survey_r ORDER BY year, stratum, tow_id)
+  TO '_demo/survey.parquet' (FORMAT PARQUET, COMPRESSION ZSTD)
+") |> invisible()
+duckdb_unregister(con, "survey_r")
+```
+
+- Register an R data frame explicitly; no implicit global-object lookup.
+- `:memory:` keeps database state ephemeral; the Parquet file persists.
+- A file-backed connection, e.g. `dbdir = "_demo/analysis.duckdb"`, persists tables.
+- Arrow alternative: `arrow::write_parquet(survey, "survey.parquet")`.
+
+::: notes
+Arrow is optional and is not required by the runnable deck. Writing a file
+requires write permission. Re-rendering replaces only the named demo outputs.
+In reusable functions, use on.exit(dbDisconnect(con, shutdown = TRUE)) immediately
+after connecting; this document closes the shared connection at the end.
+:::
+
+## Query the file, not an imported table
+
+```{r}
+#| label: parquet-view
+dbExecute(con, "
+  CREATE VIEW survey AS
+  SELECT * FROM read_parquet('_demo/survey.parquet')
+") |> invisible()
+schema <- dbGetQuery(con, "DESCRIBE survey")
+knitr::kable(schema[, c("column_name", "column_type", "null")])
+```
+
+The view stores a query, not another copy of the observations.
+
+## SQL: aggregate before bringing data into R
+
+```{r}
+#| label: sql-summary
+summary_sql <- dbGetQuery(con, "
+  SELECT year, stratum,
+         count(*) AS n_tows,
+         count(catch_kg) AS n_observed,
+         avg(catch_kg / effort_km2) AS mean_cpue
+  FROM survey
+  WHERE species = 'pollock'
+  GROUP BY year, stratum
+  ORDER BY year, stratum
+")
+```
+
+`avg()` excludes nulls; `count(*)` does not. A zero catch remains a zero.
+
+**Estimand:** unweighted mean of tow-level kg/km², not a ratio of sums.
+
+## A report-ready result, with sample sizes
+
+```{r}
+#| label: summary-table
+#| echo: false
+knitr::kable(
+  summary_sql, digits = 2,
+  col.names = c("Year", "Stratum", "Tows", "Observed catch", "Mean kg/km²"),
+  caption = "Synthetic survey: descriptive mean tow-level CPUE."
+)
+```
+
+One missing catch reduces the 2023 slope sample size from four to three.
+It is **not** silently converted to zero.
+
+This is not a design-weighted abundance estimate. Real survey inference needs
+sampling-design weights, uncertainty estimation, and domain review.
+
+## The same query through dplyr
+
+```{r}
+#| label: dplyr-summary
+lazy_summary <- tbl(con, "survey") |>
+  filter(species == "pollock") |>
+  group_by(year, stratum) |>
+  summarise(
+    n_tows = n(),
+    n_observed = sum(as.integer(!is.na(catch_kg)), na.rm = TRUE),
+    mean_cpue = mean(catch_kg / effort_km2, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(year, stratum)
+summary_r <- collect(lazy_summary)
+```
+
+`tbl()` builds a lazy query; `collect()` retrieves the six-row result.
+Not every R function translates to SQL: inspect before collecting.
+
+## Inspect the SQL translation
+
+```{r}
+#| label: show-sql
+show_query(lazy_summary)
+```
+
+Keep joins, filters, and summaries in DuckDB. Collect only the analysis-sized
+result needed for a model, plot, or report.
+
+## Make reproducibility executable
+
+```{r}
+#| label: validate-results
+stopifnot(
+  nrow(summary_sql) == 6L,
+  all(as.numeric(summary_sql$n_tows) == 4),
+  identical(as.numeric(summary_sql$n_observed), c(4, 4, 4, 3, 4, 4)),
+  isTRUE(all.equal(summary_sql$mean_cpue,
+                   c(20, 7, 22, 20 / 3, 24, 11))),
+  isTRUE(all.equal(as.data.frame(summary_r), summary_sql,
+                   check.attributes = FALSE))
+)
+cat("PASS: expected means, missingness, and SQL/dplyr agreement.\n")
+```
+
+The render fails if these checks fail. Agreement alone is insufficient:
+compare against known answers and document the scientific assumptions.
+
+## From query to manuscript figure
+
+```{r}
+#| label: fig-cpue
+#| echo: false
+#| fig-alt: "Synthetic mean CPUE rises from 20 to 24 kg per square kilometre on the shelf; slope values are 7, 6.67, and 11 in 2022 to 2024."
+cpue <- xtabs(mean_cpue ~ year + stratum, data = summary_sql)
+matplot(as.integer(rownames(cpue)), cpue, type = "b", pch = c(16, 17),
+        lty = c(1, 2), col = c("#0072B2", "#D55E00"), xaxt = "n",
+        xlab = "Year", ylab = expression("Mean tow CPUE (kg / km"^2*")"),
+        ylim = c(0, 28))
+axis(1, at = 2022:2024)
+legend("topleft", legend = colnames(cpue), col = c("#0072B2", "#D55E00"),
+       pch = c(16, 17), lty = c(1, 2), bty = "n")
+```
+
+Descriptive synthetic values only; no uncertainty intervals or population inference.
+Retain zeros, report missingness, and justify the estimator before publication.
+
+## Export the small result, retain provenance
+
+```{r}
+#| label: export-results
+write.csv(summary_sql, "_demo/cpue-summary.csv", row.names = FALSE,
+          na = "")
+manifest <- data.frame(
+  file = c("data/survey.csv", "_demo/survey.parquet"),
+  md5 = unname(tools::md5sum(c("data/survey.csv", "_demo/survey.parquet")))
+)
+write.csv(manifest, "_demo/input-manifest.csv", row.names = FALSE)
+writeLines(capture.output(sessionInfo()), "_demo/session-info.txt")
+```
+
+Archive the source revision, query, input checksum, data dictionary, package
+lockfile, and report together. MD5 here detects accidental changes, not tampering.
+
+::: notes
+For a real analysis, create and review a renv lockfile after choosing the team
+environment. Pin the DuckDB package/engine as well as R packages. Byte-for-byte
+Parquet files can differ across writer versions even when values agree, so
+validate data content and schema as well as recording file checksums.
+:::
+
+## Inspect the plan before tuning
+
+```{r}
+#| label: explain-query
+#| eval: false
+dbGetQuery(con, "
+  EXPLAIN ANALYZE
+  SELECT avg(catch_kg / effort_km2)
+  FROM read_parquet('_demo/survey.parquet')
+  WHERE year = 2024
+")
+```
+
+- `EXPLAIN`: planned operators. `EXPLAIN ANALYZE`: executes and measures.
+- Check projected columns, filters, scanned rows, and elapsed time.
+- Compare cold/warm runs on representative data, not this 24-row fixture.
+- Record engine version, hardware, cache conditions, bytes read, and cost.
+
+## Larger than R memory is not unlimited
+
+```{r}
+#| label: resource-settings
+#| eval: false
+dbExecute(con, "SET memory_limit = '4GB'")
+dbExecute(con, "SET temp_directory = '/approved/local/scratch/duckdb'")
+dbExecute(con, "SET threads = 4")
+```
+
+- Choose settings for the host; leave headroom for R and the operating system.
+- Some allocations/operators exceed the buffer memory limit or cannot spill.
+- Large joins/sorts need fast scratch space; avoid collecting raw observations.
+- Check local disk capacity and protect sensitive temporary data.
+
+# From a laptop to GCS / GCP
+
+## Why Parquet works well over object storage
+
+1. A reader fetches the footer to discover schema and byte ranges.
+2. HTTP range requests fetch needed column chunks.
+3. Statistics and partitions can reduce remote reads.
+
+**Still costs something:** object listing, requests, network transfer, and compute.
+
+- Use compute near the bucket: e.g. an approved GCP VM in the same region.
+- Remote DuckDB queries run on that VM/laptop, **not inside GCS**.
+- Broad scans, small files, and repeated cross-region reads can erase savings.
+
+::: {.source}
+[DuckDB Parquet tips](https://duckdb.org/docs/stable/data/parquet/tips)
+:::
+
+## GCS: public versus private access
+
+```{r}
+#| label: public-gcs
+#| eval: false
+dbExecute(con, "INSTALL httpfs")
+dbExecute(con, "LOAD httpfs")
+# Illustrative path: replace with an actual public Parquet object.
+public_url <- "https://storage.googleapis.com/YOUR_PUBLIC_BUCKET/survey.parquet"
+public_rows <- dbGetQuery(con, paste0(
+  "SELECT count(*) AS n FROM read_parquet(",
+  dbQuoteString(con, public_url), ")"
+))
+```
+
+`httpfs` supports remote reads. Install extensions only from approved sources.
+Public HTTPS needs no credentials; **never make restricted data public for a demo**.
+
+## Private GCS: credentials are not interchangeable
+
+DuckDB's documented `gs://` route uses GCS's S3-compatible API with **HMAC keys**.
+These are not a service-account JSON file or a `gcloud` OAuth access token.
+
+```{r}
+#| label: private-gcs-secret
+#| eval: false
+# Supply approved GCS HMAC credentials outside this document.
+stopifnot(nzchar(Sys.getenv("GCS_HMAC_KEY_ID")),
+          nzchar(Sys.getenv("GCS_HMAC_SECRET")))
+secret_sql <- paste0(
+  "CREATE OR REPLACE SECRET gcs_read (TYPE gcs, KEY_ID ",
+  dbQuoteString(con, Sys.getenv("GCS_HMAC_KEY_ID")), ", SECRET ",
+  dbQuoteString(con, Sys.getenv("GCS_HMAC_SECRET")),
+  ", SCOPE 'gs://YOUR_BUCKET/')"
+)
+invisible(dbExecute(con, secret_sql))
+rm(secret_sql)
+```
+
+::: notes
+Run the preceding httpfs installation/loading first. The default secret is
+temporary, scoped to this database instance; do not use CREATE PERSISTENT SECRET
+in a shared teaching environment. Never print the SQL string, enable query
+logging around it, or put credentials in the deck, source control, or reports.
+HMAC keys are long-lived secrets: use least-privilege bucket/object permissions,
+approved secret delivery, and rotation. An organization may prohibit them;
+consult your cloud/security team rather than bypassing policy.
+:::
+
+## Query a private release — without downloading it all
+
+```{r}
+#| label: private-gcs-query
+#| eval: false
+cloud_summary <- dbGetQuery(con, "
+  SELECT year, stratum, avg(catch_kg / effort_km2) AS mean_cpue
+  FROM read_parquet(
+    'gs://YOUR_BUCKET/survey/releases/v1/year=*/*.parquet',
+    hive_partitioning = true
+  )
+  WHERE year = 2024 AND species = 'pollock'
+  GROUP BY year, stratum
+  ORDER BY year, stratum
+")
+dbExecute(con, "DROP SECRET gcs_read")
+```
+
+If HMAC is not approved: stage an authorized, versioned subset using approved
+Google tooling and query locally. A mounted bucket is not automatically a fast disk.
+
+::: {.source}
+[DuckDB GCS authentication and examples](https://duckdb.org/docs/stable/guides/network_cloud_storage/gcs_import)
+:::
+
+## A reproducible cloud release
+
+- Write a **new release prefix**, validate, then publish its manifest.
+- Record exact object names, GCS generation IDs, and checksums.
+- Prefer immutable snapshots; enable retention/versioning per agency policy.
+- Keep a schema, units, missing-value conventions, and release notes.
+- Grant collaborators read-only access to the same approved objects.
+
+**Important:** a wildcard over a changing prefix is not a frozen input.
+An ordinary `gs://` query does not by itself pin object generations; use
+immutable names or a verified, generation-pinned staging workflow.
+
+## Which engine belongs where?
+
+| Need | DuckDB | PostgreSQL / Oracle |
+|---|---|---|
+| One analyst scanning a snapshot | Excellent fit | Also possible; requires a service |
+| Many users updating shared records | Not the usual fit | Designed for coordinated clients |
+| Transactions and constraints | Supported locally | Centralized transactional systems |
+| Per-user roles, auditing, service uptime | Not a server security boundary | Managed server controls |
+| Portable analytical extract | File + R project | Export or database access |
+
+In embedded mode, DuckDB supports concurrent work within a process; multiple
+processes can read when none writes. Do **not** independently open one writable
+`.duckdb` file from several R sessions or over a network drive.
+
+::: notes
+This comparison concerns the embedded R workflow, not all DuckDB deployments.
+Newer versions also offer client-server access through the Quack protocol;
+check current support and operational requirements before choosing it.
+:::
+
+::: {.source}
+[DuckDB concurrency](https://duckdb.org/docs/stable/connect/concurrency)
+:::
+
+## DuckDB, BigQuery, or both?
+
+- **DuckDB:** local/VM analysis, versioned Parquet, bounded compute, portable reports.
+- **BigQuery:** managed distributed warehouse, shared SQL service, IAM and governance;
+  storage/query or capacity costs depend on configuration.
+- **PostgreSQL / Oracle:** authoritative shared records, transactional applications,
+  controlled edits, organizational access and auditing.
+
+**Common NMFS pattern:** authoritative database → approved versioned Parquet
+extract on GCS → DuckDB in R → validated report/manuscript.
+
+Large multi-user workloads may belong in the warehouse; benchmark and consult
+data stewards rather than replacing an operational database.
+
+## Collaboration is more than sharing a file
+
+**In Git:** Quarto/R source, small public fixtures, schema, package lockfile,
+queries, validation rules, and a release manifest.
+
+**In approved data storage:** large snapshots, confidential inputs, and
+access-controlled derived data. A Parquet file does not enforce row-level access.
+
+**With the publication:** methods, estimator/weighting choices, exclusions,
+data/code availability, software versions, and archived release identifiers.
+
+Confirm confidentiality and disclosure review before publishing even summaries.
+Preserve authoritative sources; avoid emailing divergent copies of “final.csv.”
+
+## Exercise: produce a 2024 result
+
+Using `tbl(con, "survey")`:
+
+1. Filter to 2024 and `pollock`.
+2. Compute tow-level `catch_kg / effort_km2`.
+3. Summarize mean CPUE and observed sample size by stratum.
+4. Collect **only** the summary.
+5. Explain why averaging tow ratios differs from dividing total catch by total effort.
+
+**Check your answer:** shelf = **24**, slope = **11** kg/km²;
+four observed tows per stratum.
+
+::: notes
+Allow 5–10 minutes. Discuss the scientific target, not just syntax.
+What would change with unequal inclusion probabilities? What if effort were
+zero, units differed across cruises, or a join duplicated tow records?
+:::
+
+## Exercise solution
+
+```{r}
+#| label: exercise-solution
+answer <- tbl(con, "survey") |>
+  filter(year == 2024L, species == "pollock") |>
+  mutate(cpue = catch_kg / effort_km2) |>
+  group_by(stratum) |>
+  summarise(mean_cpue = mean(cpue, na.rm = TRUE),
+            n_observed = sum(as.integer(!is.na(cpue)), na.rm = TRUE),
+            .groups = "drop") |>
+  arrange(stratum) |>
+  collect()
+stopifnot(isTRUE(all.equal(answer$mean_cpue, c(24, 11))))
+knitr::kable(answer, digits = 2)
+```
+
+The shelf ratio of sums is `154 / 6 = 25.67`, not 24.
+Choose the estimator based on the sampling design and analysis question.
+
+## Take this workflow to your next paper
+
+1. Validate a typed extract from the authoritative source.
+2. Publish an approved, immutable Parquet snapshot with a dictionary.
+3. Query lazily with DuckDB; collect only what the analysis needs.
+4. Test sample sizes, keys, units, missingness, and known results.
+5. Render tables/figures from code and archive input + software provenance.
+
+**Start small:** replace one repeated CSV scan, compare results, then scale.
+
+## References and next steps
+
+- [Apache Parquet documentation](https://parquet.apache.org/docs/) — format and internals.
+- [DuckDB R client](https://duckdb.org/docs/stable/clients/r) and
+  [dbplyr](https://dbplyr.tidyverse.org/) — R interfaces.
+- [DuckDB Parquet I/O](https://duckdb.org/docs/stable/data/parquet/overview) —
+  selective scans and writing.
+- [DuckDB GCS / httpfs](https://duckdb.org/docs/stable/guides/network_cloud_storage/gcs_import) —
+  current authentication requirements.
+- [GCS request-rate and access guidance](https://cloud.google.com/storage/docs/best-practices)
+  and [object generations](https://cloud.google.com/storage/docs/metadata#generation-number).
+- [Quarto Revealjs](https://quarto.org/docs/presentations/revealjs/) and
+  [renv](https://rstudio.github.io/renv/) — reporting and environment management.
+
+See the repository README for setup, rendering, generated files, and demo limitations.
+
+## Render environment
+
+```{r}
+#| label: environment
+#| echo: false
+packages <- c("duckdb", "DBI", "dplyr", "dbplyr", "knitr", "rmarkdown")
+knitr::kable(data.frame(
+  Software = c("R", packages),
+  Version = c(as.character(getRversion()),
+              vapply(packages, function(p) as.character(packageVersion(p)), ""))
+))
+dbDisconnect(con, shutdown = TRUE)
+```
+
+These are the versions used for **this render**, not a substitute for a reviewed
+project lockfile. Full R session details are saved in `_demo/session-info.txt`.

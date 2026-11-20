@@ -1,0 +1,36 @@
+project:
+  type: default
+  output-dir: _output
+  render:
+    - parquet-duckdb.qmd
+
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    progress: true
+    controls: true
+    navigation-mode: linear
+    transition: none
+    width: 1280
+    height: 800
+    margin: 0.08
+    center: false
+    embed-resources: true
+    code-overflow: wrap
+    code-copy: true
+    css: slides.css
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: false
+  cache: false
+  freeze: false
+
+knitr:
+  opts_chunk:
+    fig.width: 9
+    fig.height: 4
+    dpi: 144
