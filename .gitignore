@@ -49,13 +49,14 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-# compiled code 
+# compiled code
 src/*.o
 src/*.so
 src/*.dll
 
 # Quarto output and reproducible teaching-demo artifacts
-.quarto/
+/.quarto/
 _output/
 _demo/
 *_files/
+**/*.quarto_ipynb

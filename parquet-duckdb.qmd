@@ -643,7 +643,7 @@ knitr::kable(data.frame(
   Software = c("R", packages),
   Version = c(as.character(getRversion()),
               vapply(packages, function(p) as.character(packageVersion(p)), ""))
-))
+), row.names = FALSE)
 dbDisconnect(con, shutdown = TRUE)
 ```
 

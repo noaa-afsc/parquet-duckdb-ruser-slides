@@ -6,7 +6,9 @@ project:
 
 format:
   revealjs:
-    theme: simple
+    theme: default
+    mainfont: "Arial, sans-serif"
+    monofont: "monospace"
     slide-number: true
     progress: true
     controls: true
@@ -17,6 +19,7 @@ format:
     margin: 0.08
     center: false
     embed-resources: true
+    html-math-method: plain
     code-overflow: wrap
     code-copy: true
     css: slides.css
