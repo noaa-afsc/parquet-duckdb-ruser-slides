@@ -1,0 +1,259 @@
+// Custom RevealJS theme merging the clean architecture of
+// EmilHvitfeldt/quarto-revealjs-template with the light scientific tutorial
+// styling of jthomasmock/arrow-dplyr.
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
+
+$colors: (
+    "white": #FFFFFF,
+    "black": #222222,
+    "navy": #003366,
+    "ocean": #006699,
+    "slate": #5A6B7C,
+    "mist": #F4F6F8,
+    "border": #DCE3EA
+);
+
+/*-- scss:functions --*/
+
+@function theme-color($color) {
+    @return map-get($colors, $color);
+}
+
+/*-- scss:defaults --*/
+
+// Fonts (from jthomasmock/arrow-dplyr)
+$font-family-sans-serif: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !default;
+$font-family-monospace: "Fira Mono", ui-monospace, SFMono-Regular, Menlo, monospace !default;
+$presentation-heading-font: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !default;
+
+// Colors (clean light canvas)
+$body-bg: theme-color("white") !default;
+$body-color: theme-color("black") !default;
+$link-color: theme-color("ocean") !default;
+$presentation-heading-color: theme-color("navy") !default;
+$selection-bg: theme-color("ocean") !default;
+
+// Scale & rhythm for 1280x720 widescreen canvas
+$presentation-font-size-root: 30px !default;
+$presentation-line-height: 1.38 !default;
+$presentation-h1-font-size: 2.1em !default;
+$presentation-h2-font-size: 1.45em !default;
+$presentation-h3-font-size: 1.1em !default;
+$presentation-heading-font-weight: 700 !default;
+$presentation-heading-line-height: 1.15 !default;
+
+// Code blocks (from jthomasmock/arrow-dplyr)
+$code-bg: theme-color("mist") !default;
+$code-color: theme-color("navy") !default;
+$code-block-bg: theme-color("mist") !default;
+$code-block-border-color: theme-color("border") !default;
+$code-block-font-size: 0.64em !default;
+
+/*-- scss:rules --*/
+
+// Color utility classes (from EmilHvitfeldt/quarto-revealjs-template)
+@each $name, $color in $colors {
+    .text-#{$name} {
+        color: $color;
+    }
+
+    .bg-#{$name} {
+        background-color: $color;
+    }
+}
+
+// Left-aligned scientific title slide
+#title-slide {
+    text-align: left;
+
+    .title {
+        color: theme-color("navy");
+        font-size: 2.2em;
+        font-weight: 700;
+        line-height: 1.12;
+        margin-bottom: 0.25em;
+    }
+
+    .subtitle {
+        color: theme-color("ocean");
+        font-size: 1.15em;
+        font-weight: 400;
+        margin-top: 0;
+        margin-bottom: 1em;
+        padding-bottom: 0.65em;
+        border-bottom: 3px solid theme-color("ocean");
+    }
+
+    .quarto-title-authors {
+        justify-content: flex-start;
+        margin-top: 0.8em;
+    }
+
+    .quarto-title-author {
+        padding-left: 0;
+        color: theme-color("black");
+        font-size: 0.9em;
+    }
+
+    .date {
+        color: theme-color("slate");
+        font-size: 0.8em;
+        margin-top: 0.3em;
+    }
+}
+
+// Slide headers with subtle breathing room
+.reveal h2 {
+    border-bottom: 2px solid theme-color("border");
+    padding-bottom: 0.22em;
+    margin-bottom: 0.65em;
+}
+
+// Section divider slides
+.reveal .slide-background.section-slide,
+.reveal section.section-slide {
+    color: theme-color("white");
+}
+
+.reveal section.title-slide h1,
+.reveal section[data-background-color] h1 {
+    color: theme-color("white");
+    font-size: 2.1em;
+    border-bottom: none;
+}
+
+// Comfortable list rhythm
+.reveal ul,
+.reveal ol {
+    margin-top: 0.25em;
+    margin-bottom: 0.55em;
+}
+
+.reveal li {
+    margin-bottom: 0.35em;
+}
+
+.reveal li>ul,
+.reveal li>ol {
+    margin-top: 0.25em;
+    margin-bottom: 0.2em;
+}
+
+// Code blocks & console output
+.reveal div.sourceCode {
+    border: 1px solid theme-color("border");
+    border-left: 4px solid theme-color("ocean");
+    border-radius: 4px;
+    margin-top: 0.35em;
+    margin-bottom: 0.5em;
+}
+
+.reveal pre code {
+    padding: 0.55em 0.75em;
+    line-height: 1.32;
+    max-height: 540px;
+}
+
+.reveal pre:not(.sourceCode):not(.mermaid) {
+    background-color: theme-color("mist");
+    border: 1px solid theme-color("border");
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.reveal .cell-output-stdout pre {
+    background-color: #FAFBFD;
+    border: 1px solid theme-color("border");
+    border-radius: 4px;
+    font-size: 0.56em;
+    line-height: 1.28;
+    margin-top: 0.25em;
+    margin-bottom: 0.4em;
+    box-shadow: none;
+}
+
+.reveal code:not(.sourceCode) {
+    padding: 0.08em 0.28em;
+    border-radius: 3px;
+    font-size: 0.86em;
+}
+
+.reveal .smaller-code pre code {
+    font-size: 0.53em;
+    line-height: 1.26;
+}
+
+.reveal .compact-resources {
+    font-size: 0.82em;
+    margin-top: 0.5em;
+}
+
+// Center Mermaid diagram cleanly on slide
+.reveal pre.mermaid {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    margin-top: 1.2em;
+}
+
+.reveal .cell-output-display svg.mermaid-js,
+.reveal .mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+// Clean tables
+.reveal table {
+    font-size: 0.78em;
+    margin-top: 0.45em;
+    margin-bottom: 0.65em;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.reveal table th {
+    color: theme-color("navy");
+    font-weight: 700;
+    border-bottom: 2px solid theme-color("navy");
+    padding: 0.45em 0.6em;
+}
+
+.reveal table td {
+    border-bottom: 1px solid theme-color("border");
+    padding: 0.42em 0.6em;
+}
+
+.reveal table tbody tr:nth-child(even) {
+    background-color: theme-color("mist");
+}
+
+// Compact, legible callouts
+.reveal .callout {
+    font-size: 0.78em;
+    margin-top: 0.6em;
+    margin-bottom: 0.3em;
+}
+
+.reveal .callout-body {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+// Subtle footer & slide numbers
+.reveal .footer {
+    color: theme-color("slate");
+    font-size: 0.52em;
+}
+
+.reveal .slide-number {
+    color: theme-color("slate");
+    font-size: 0.55em;
+    background-color: transparent;
+}
+
+// Helper for tighter two-column spacing
+.reveal .columns {
+    column-gap: 1.5rem;
+}

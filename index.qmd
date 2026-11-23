@@ -5,14 +5,22 @@ author: "NMFS Alaska / North Pacific R User Group"
 date: today
 format:
   revealjs:
-    theme: moon
-    slide-number: true
+    theme: [default, styles.scss]
+    width: 1280
+    height: 720
+    margin: 0.08
+    slide-number: c/t
+    center-title-slide: false
+    footer: "NMFS Alaska / North Pacific R User Group — Parquet & DuckDB in R"
+    code-copy: true
+    code-overflow: wrap
     code-line-numbers: false
-    highlight-style: monokai
+    highlight-style: a11y
+    mermaid-format: svg
     mermaid:
-      theme: dark
-    fig-width: 8
-    fig-height: 4.5
+      theme: neutral
+    fig-width: 7.5
+    fig-height: 4.6
     fig-dpi: 150
 execute:
   echo: true
@@ -35,12 +43,8 @@ library(geoarrow)
 library(tidyr)
 library(here)
 
-source(here::here("R", "generate_demo_data.R"))
-
-pq_file <- here::here("data", "parquet", "seal_telemetry.parquet")
-if (!file.exists(pq_file)) {
-  generate_demo_data()
-}
+source(here::here("R", "prepare_aleutian_data.R"))
+prepare_aleutian_data()
 ```
 
 ## Why Are We Talking About File Formats?
@@ -59,39 +63,52 @@ Our datasets outgrew `read.csv()` and `load(".RData")` years ago.
 
 | Format | Pain point at scale |
 | --- | --- |
-| **CSV** | Slow text parsing; no schema or types (`0012` becomes `12`); must read all columns/rows; no nested or spatial types |
+| **CSV** | Slow text parsing; fragile type guessing (`NA`s turn numeric columns into text); must scan all rows; no nested or spatial types |
 | **`.rds` / `.RData`** | R-only binary; must deserialize the *entire* object into RAM; `.RData` pollutes the global environment |
 
-When you only need `species` and `max_depth_m` for 2024, reading a 2 GB CSV or `.rds` still pays the full I/O and memory cost.
+When you only need `sex`, `age_class`, and `depth_max` for QA-valid dives, reading a 286 MB CSV or `.rds` still pays the full I/O and memory cost.
 
 ## Today's Stack at a Glance
 
 ```{mermaid}
-%%| fig-width: 9.5
+%%| echo: false
+%%| fig-width: 11.5
 flowchart LR
-  SRC["Source Data<br/>(CSV, Oracle, PostgreSQL)"] -->|"arrow / sf / R"| PQ["Parquet Data Lake<br/>(Local or gs:// Bucket)"]
+  SRC["Source Data<br/>(CSV, Oracle, PG)"] -->|"DuckDB / arrow"| PQ["Parquet Data Lake<br/>(Local or gs://)"]
   PQ -->|"Zero-copy scan"| DUCK["DuckDB Engine<br/>(SQL or dbplyr)"]
   PQ -->|"Direct preview"| POS["Positron<br/>Data Explorer"]
-  DUCK -->|"Small summary"| R["R / ggplot2 / Quarto"]
-  DD["data-dict.yaml"] -.->|"Validates & documents"| PQ
+  DUCK -->|"Small summary"| R["R / ggplot2<br/>& Quarto"]
+  DD["data-dict.yaml"] -.->|"Validates &<br/>documents"| PQ
 ```
 
-## Our Running Example
+## Our Running Example: Aleutian Harbor Seal Dives
 
-A synthetic Alaska pinniped telemetry dataset (**500,000 dive records**, 2019–2025) stored three ways in `data/`:
+Real NMFS Alaska biologger telemetry from `akhs-aleutian-dive` (**75 harbor seal tags**, Aleutian Islands, 2014–2017):
 
-- `data/raw/seal_telemetry.csv`
-- `data/raw/seal_telemetry.rds`
-- `data/parquet/seal_telemetry.parquet` (plus Hive-partitioned `year=YYYY/`)
+:::: {.columns}
 
-Everything in these slides runs locally with project-relative paths via `here::here()`.
+::: {.column width="52%"}
+- **1,749,363 total rows** (23 columns)
+- **532,715 dives** (`dive_start`, `dive_mid`, `dive_end`)
+- **151k Argos & FastGPS fixes**, capture/release points, and hourly haulout records
+:::
 
-# Part 1: Apache Parquet {background-color="#073642"}
+::: {.column width="48%"}
+Stored locally in gitignored `data/` three ways:
+
+- `data/raw/AleutianPv_DiveData4analysis.csv` (**286 MB**)
+- `data/raw/AleutianPv_DiveData4analysis.rds` (**14 MB**)
+- `data/parquet/aleutian_dives.parquet` (**16 MB**) & `dive_data_parquet/` (75 `deployid=.../` partitions)
+:::
+
+::::
+
+# Part 1: Apache Parquet {background-color="#003366"}
 
 ## Where Parquet Came From
 
 - **2013:** Developed by Twitter and Cloudera, inspired by Google's *Dremel* paper on nested columnar storage
-- **Design goal:** An open, language-neutral format built for *analytical* reads (scan 3 columns across 50M rows) rather than row-by-row editing
+- **Design goal:** An open, language-neutral format built for *analytical* reads (scan 4 columns across millions of rows) rather than row-by-row editing
 - Now the standard storage layer across R (`arrow`, `nanoparquet`), Python (`polars`, `pandas`, `pyarrow`), DuckDB, Spark, and BigQuery
 
 ## Why Columnar Storage Changes Everything
@@ -101,43 +118,42 @@ Row-oriented formats (CSV, SQLite) store record 1, then record 2, then record 3.
 - **Column projection:** Read only the columns your query touches
 - **Predicate pushdown:** Skip entire row groups using stored `min`/`max` statistics
 - **Better compression:** Similar values sit next to each other (dictionary + RLE + Zstd)
-- **Strict types:** Dates, timestamps, integers, lists, and structs stay intact
+- **Strict types:** Dates, timestamps, doubles, lists, and structs stay intact
 
-## Benchmark: CSV vs. `.rds` vs. Parquet + DuckDB
+## Benchmark: CSV vs. `.rds` vs. Parquet + DuckDB {.smaller-code}
 
-Let's measure file size and the time to compute mean dive depth by species for `year == 2024` across 500,000 rows:
+Mean `depth_max` by `sex` and `age_class` across QA-valid dive midpoints (**1.75M rows**):
 
 ```{r}
 #| label: benchmark-formats
-csv_path <- "data/raw/seal_telemetry.csv"
-rds_path <- "data/raw/seal_telemetry.rds"
-pq_path  <- "data/parquet/seal_telemetry.parquet"
-
+csv_path <- "data/raw/AleutianPv_DiveData4analysis.csv"
+rds_path <- "data/raw/AleutianPv_DiveData4analysis.rds"
+pq_path  <- "data/parquet/aleutian_dives.parquet"
 sizes_mb <- round(file.size(c(csv_path, rds_path, pq_path)) / 1024^2, 2)
 
+summarise_dives <- function(x) {
+  x |>
+    filter(dt_type == "dive_mid", qa_status == "include") |>
+    summarise(mean_depth = mean(depth_max, na.rm = TRUE), .by = c(sex, age_class))
+}
+
 t_csv <- system.time(
-  readr::read_csv(csv_path, col_select = c(species, year, max_depth_m), show_col_types = FALSE) |>
-    filter(year == 2024) |>
-    summarise(mean_depth = mean(max_depth_m, na.rm = TRUE), .by = species)
+  readr::read_csv(
+    csv_path, col_select = c(sex, age_class, dt_type, qa_status, depth_max),
+    show_col_types = FALSE
+  ) |> summarise_dives()
 )[["elapsed"]]
 
-t_rds <- system.time(
-  readRDS(rds_path) |>
-    filter(year == 2024) |>
-    summarise(mean_depth = mean(max_depth_m, na.rm = TRUE), .by = species)
-)[["elapsed"]]
+t_rds <- system.time(readRDS(rds_path) |> summarise_dives())[["elapsed"]]
 
 con <- dbConnect(duckdb())
 t_duck <- system.time(
-  tbl(con, sprintf("read_parquet('%s')", pq_path)) |>
-    filter(year == 2024) |>
-    summarise(mean_depth = mean(max_depth_m, na.rm = TRUE), .by = species) |>
-    collect()
+  tbl(con, sprintf("read_parquet('%s')", pq_path)) |> summarise_dives() |> collect()
 )[["elapsed"]]
 dbDisconnect(con, shutdown = TRUE)
 ```
 
-## Benchmark Results (500k Rows)
+## Benchmark Results (1.75M Rows, 75 Tags)
 
 ```{r}
 #| label: benchmark-table
@@ -153,97 +169,120 @@ tibble::tibble(
 ```
 
 ::: {.callout-tip}
-`RDS` compresses well for R-only snapshots, but forces R to deserialize the entire object into memory. Parquet + DuckDB scans only the matching row groups and 3 columns—and works in Python and SQL too.
+`RDS` shrinks the 286 MB CSV to ~14 MB, but forces R to deserialize all 1.75M rows and 23 columns into memory. Parquet + DuckDB matches that tiny footprint while scanning only 5 columns and qualifying row groups in milliseconds.
 :::
 
-## Creating Parquet Files in R
+## Creating Partitioned Parquet with Strict Types
 
-Use `arrow::write_parquet()` for single files, or `arrow::write_dataset()` for **Hive-partitioned** directories (`year=2024/part-0.parquet`):
+Convert a large CSV straight to **Hive-partitioned** Parquet out-of-core in DuckDB (or use `arrow::write_parquet()` / `arrow::write_dataset()` from an R data frame):
 
+:::: {.columns}
+
+::: {.column width="60%"}
 ```{r}
 #| label: write-parquet-example
 #| eval: false
-library(arrow)
-
-# Single file with Zstandard compression (great balance for local & GCS)
-write_parquet(telemetry, "data/parquet/seal_telemetry.parquet", compression = "zstd")
-
-# Hive-partitioned directory by year (queries for 1 year skip all other folders)
-write_dataset(
-  telemetry,
-  path = "data/parquet/telemetry_partitioned",
-  format = "parquet",
-  partitioning = "year",
-  compression = "zstd"
-)
+dbExecute(con, "
+  COPY (
+    SELECT * FROM read_csv_auto(
+      'data/raw/AleutianPv_DiveData4analysis.csv',
+      nullstr = 'NA',
+      types = {
+        'dt': 'TIMESTAMP',
+        'timeline_start_dt': 'TIMESTAMP',
+        'depth_min': 'DOUBLE', 'depth_max': 'DOUBLE',
+        'duration_min': 'DOUBLE', 'duration_max': 'DOUBLE'
+      }
+    )
+  ) TO 'data/parquet/dive_data_parquet' (
+    FORMAT PARQUET, PARTITION_BY (deployid),
+    COMPRESSION ZSTD, OVERWRITE_OR_IGNORE
+  );
+")
 ```
+:::
+
+::: {.column width="40%" .smaller-code}
+::: {.callout-warning}
+**Real-world typing gotcha:** Leading location rows (`Argos`, `capture_location`) have `NA` for dive metrics, so CSV auto-inference can type `depth_max` as `VARCHAR`. Declaring `types` once locks strict `DOUBLE` and `TIMESTAMP` types into Parquet.
+:::
 
 ```{r}
 #| label: list-partitions
-list.files("data/parquet/telemetry_partitioned")
+p <- list.files("data/parquet/dive_data_parquet")
+c(head(p, 3), sprintf("... (%d partitions)", length(p)))
 ```
+:::
+
+::::
 
 ## Nested Parquet Files in R
 
-Marine mammal telemetry is hierarchical: one deployment has many dives. Parquet supports **list-of-struct** columns natively—no need to duplicate metadata across 500k rows.
+Biologger telemetry is hierarchical: one tag deployment (`deployid`) has thousands of dives. Parquet stores **list-of-struct** columns natively—no need to repeat tag metadata on every row:
 
 ```{r}
 #| label: nested-parquet
-nested_dives <- tibble::tibble(
-  deploy_id = c("AK0001", "AK0002"),
-  species = c("Harbor seal", "Steller sea lion"),
-  dives = list(
-    tibble::tibble(dive_id = 1:3, max_depth_m = c(42.5, 118.0, 65.2)),
-    tibble::tibble(dive_id = 1:2, max_depth_m = c(88.1, 140.3))
-  )
-)
+nested_dives <- arrow::open_dataset("data/parquet/dive_data_parquet") |>
+  filter(
+    deployid %in% c("PV2014_2001_10A0193", "PV2016_3001_16A0227"),
+    dt_type == "dive_mid", qa_status == "include"
+  ) |>
+  select(deployid, sex, age_class, tbl_identifier, dt, shape, depth_max) |>
+  collect() |>
+  slice_min(dt, n = 2, by = deployid) |>
+  tidyr::nest(dives = c(tbl_identifier, dt, shape, depth_max))
 
-nested_path <- "data/parquet/seal_dives_nested.parquet"
+nested_path <- "data/parquet/aleutian_dives_nested.parquet"
 arrow::write_parquet(nested_dives, nested_path)
 arrow::read_parquet(nested_path) |> tidyr::unnest(dives)
 ```
 
-## Spatial Data in Parquet (GeoParquet)
+## Spatial Data in Parquet (GeoParquet) {.smaller-code}
 
-Combine `sf` + `geoarrow` + `arrow` to store geometries and explicit coordinate reference systems (e.g., WGS84 `EPSG:4326` or Alaska Albers `EPSG:3338`) inside Parquet:
+Project all **75 Aleutian capture locations** (173.9°E–178.7°W across the **180° antimeridian**) to **Alaska Albers (`EPSG:3338`)** and store geometry + CRS in Parquet:
 
 ```{r}
 #| label: geoparquet
-haulouts <- st_as_sf(
-  tibble::tibble(
-    site = c("St. Paul", "Kodiak", "Amchitka"),
-    lon = c(-170.28, -152.40, 179.10),
-    lat = c(57.18, 57.79, 51.45)
-  ),
-  coords = c("lon", "lat"),
-  crs = 4326
-) |>
-  # Alaska Albers equal-area projection for accurate distance/area analysis
+captures_sf <- arrow::open_dataset("data/parquet/dive_data_parquet") |>
+  filter(dt_type == "capture_location", !is.na(latitude), !is.na(longitude)) |>
+  select(deployid, sex, age_class, longitude, latitude) |>
+  collect() |>
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
   st_transform(3338)
 
-geo_path <- "data/parquet/haulouts_geo.parquet"
+geo_path <- "data/parquet/aleutian_captures_geo.parquet"
 arrow::as_arrow_table(
-  mutate(st_drop_geometry(haulouts), geom = geoarrow::as_geoarrow_vctr(st_geometry(haulouts)))
+  mutate(st_drop_geometry(captures_sf), geom = geoarrow::as_geoarrow_vctr(st_geometry(captures_sf)))
 ) |>
   arrow::write_parquet(geo_path)
 
-arrow::read_parquet(geo_path, as_data_frame = FALSE) |> st_as_sf()
+arrow::read_parquet(geo_path, as_data_frame = FALSE) |> st_as_sf() |> print(n = 3)
 ```
 
 ## Exploring Parquet in Positron & What About `arrow`?
 
-**In Positron:** Click any `.parquet` file in the File Explorer to open it directly in the **Data Explorer** (powered by DuckDB under the hood):
+:::: {.columns}
+
+::: {.column width="50%"}
+### Positron Data Explorer
+
+Click any `.parquet` file in the File Explorer to open it directly (powered by DuckDB under the hood):
 
 - Inspect column histograms, missingness, and summary stats without writing code
 - Apply ephemeral filters/sorts, or click **Import Data** to generate starter R/Python code
+:::
 
-**`arrow` vs. `duckdb`:**
+::: {.column width="50%"}
+### `arrow` vs. `duckdb`
 
 - Use **`arrow`** for reading/writing Parquet, partitioned datasets, and zero-copy Arrow tables
 - Use **`duckdb`** for SQL, complex joins, window functions, and larger-than-RAM aggregations
-- They share memory with zero copying via `arrow::to_duckdb()` and `arrow::to_arrow()`
+- Share memory with zero copying via `arrow::to_duckdb()` and `arrow::to_arrow()`
+:::
 
-# Part 2: DuckDB {background-color="#073642"}
+::::
+
+# Part 2: DuckDB {background-color="#003366"}
 
 ## Where DuckDB Came From
 
@@ -284,75 +323,94 @@ Positron's **Data Connections** sidebar also includes a built-in DuckDB driver t
 
 ## Querying Parquet Directly from DuckDB
 
-No `CREATE TABLE` or import step needed—point DuckDB straight at a file or glob of Hive-partitioned Parquet files:
+No `CREATE TABLE` or import step needed—point DuckDB straight at all 75 deployment-partitioned Parquet files:
 
 ```{r}
 #| label: query-parquet-sql
-part_glob <- "data/parquet/telemetry_partitioned/**/*.parquet"
+part_glob <- "data/parquet/dive_data_parquet/**/*.parquet"
 
 dbGetQuery(con, sprintf("
   SELECT
-    year,
-    species,
+    sex, age_class,
+    COUNT(DISTINCT deployid) AS n_tags,
     COUNT(*) AS n_dives,
-    ROUND(AVG(max_depth_m), 1) AS mean_depth_m
+    ROUND(MEDIAN(depth_max), 1) AS median_depth_m
   FROM read_parquet('%s', hive_partitioning = true)
-  WHERE year >= 2023 AND quality_flag = 'good'
-  GROUP BY year, species
-  ORDER BY year DESC, n_dives DESC
-", part_glob)) |>
-  head(6)
+  WHERE dt_type = 'dive_mid' AND qa_status = 'include'
+  GROUP BY sex, age_class
+  ORDER BY sex, age_class
+", part_glob))
 ```
 
-## Complex Queries: DuckDB + `dbplyr` (Keep Your Tidyverse)
+## Complex Queries: DuckDB + `dbplyr` (Keep Your Tidyverse) {.smaller-code}
 
-You do **not** have to give up `dplyr`. Write standard tidyverse verbs—`dbplyr` translates them into DuckDB SQL lazily and only pulls results into R when you call `collect()`:
+Write standard tidyverse verbs—`dbplyr` translates them into DuckDB SQL lazily and only pulls results into R when you call `collect()`:
 
 ```{r}
 #| label: dbplyr-query
-telemetry_tbl <- tbl(
+#| output-location: column
+dives_tbl <- tbl(
   con,
-  sql(sprintf("SELECT * FROM read_parquet('%s', hive_partitioning = true)", part_glob))
+  sql(sprintf(
+    "SELECT * FROM read_parquet('%s',
+       hive_partitioning = true)",
+    part_glob
+  ))
 )
 
-summary_query <- telemetry_tbl |>
-  filter(quality_flag == "good", year >= 2022) |>
-  group_by(species, region) |>
+tag_summary <- dives_tbl |>
+  filter(
+    dt_type == "dive_mid",
+    qa_status == "include"
+  ) |>
+  group_by(deployid, sex, age_class) |>
   summarise(
     n_dives = n(),
-    p95_depth_m = quantile(max_depth_m, 0.95),
+    p95_depth_m = quantile(
+      depth_max, 0.95, na.rm = TRUE
+    ),
     .groups = "drop"
   ) |>
   arrange(desc(p95_depth_m))
 
-show_query(summary_query)
+show_query(tag_summary)
 ```
 
-## Aggregate in DuckDB, Plot in `ggplot2`
+## Aggregate in DuckDB, Plot in `ggplot2` {.smaller-code}
 
-Push the 500,000-row aggregation into DuckDB, `collect()` the small summary table, and hand it straight to `ggplot2`:
+Push the 532k-dive aggregation into DuckDB for **per-tag medians**, `collect()` 75 rows, and plot in `ggplot2`:
 
 ```{r}
 #| label: plot-duckdb-summary
 #| output-location: column
-telemetry_tbl |>
-  filter(quality_flag == "good") |>
+dives_tbl |>
+  filter(dt_type == "dive_mid",
+         qa_status == "include") |>
   summarise(
-    mean_depth_m = mean(max_depth_m),
+    med_depth = median(depth_max, na.rm = TRUE),
     n_dives = n(),
-    .by = c(species, region)
+    .by = c(deployid, sex, age_class)
   ) |>
   collect() |>
-  ggplot(aes(x = mean_depth_m, y = species)) +
-  geom_point(aes(size = n_dives)) +
-  facet_wrap(~ region) +
-  labs(
-    x = "Mean max dive depth (m)",
-    y = NULL,
-    size = "Dive count",
-    title = "Synthetic Telemetry Summary via DuckDB"
+  mutate(age_class = factor(
+    age_class,
+    c("Young of year", "Subadult", "Adult")
+  )) |>
+  ggplot(aes(med_depth, age_class)) +
+  geom_boxplot(outlier.shape = NA, width = 0.45) +
+  geom_point(
+    aes(size = n_dives), alpha = 0.65,
+    position = position_jitter(height = 0.14, seed = 4817)
   ) +
-  theme_minimal(base_size = 13)
+  facet_wrap(~ sex) +
+  labs(
+    x = "Per-tag median max dive depth (m)", y = NULL,
+    size = "Valid dives",
+    title = "Aleutian Harbor Seal Dive Depth",
+    subtitle = "75 tags, 532,703 QA-valid dives"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
 ```
 
 ```{r}
@@ -361,31 +419,40 @@ telemetry_tbl |>
 dbDisconnect(con, shutdown = TRUE)
 ```
 
-## Spatial SQL in DuckDB & `.duckdb` vs. Parquet
+## Spatial SQL in DuckDB
 
-DuckDB's `spatial` extension brings PostGIS-style geometry functions (`ST_Point`, `ST_Transform`, `ST_Intersects`) directly into SQL:
+DuckDB's `spatial` extension brings PostGIS-style geometry functions (`ST_Point`, `ST_Transform`, `ST_Intersects`) directly into SQL—querying GeoParquet files with zero database setup:
 
 ```{r}
 #| label: duckdb-spatial
 #| eval: false
 dbExecute(con, "INSTALL spatial; LOAD spatial;")
 dbGetQuery(con, "
-  SELECT region, COUNT(*) AS n_pts
-  FROM read_parquet('data/parquet/haulouts_geo.parquet')
-  WHERE ST_Intersects(geom, ST_MakeEnvelope(-1000000, 500000, 500000, 1500000))
-  GROUP BY region
+  SELECT sex, age_class, COUNT(*) AS n_captures
+  FROM read_parquet('data/parquet/aleutian_captures_geo.parquet')
+  WHERE ST_Intersects(geom, ST_MakeEnvelope(-1800000, 400000, -1000000, 900000))
+  GROUP BY sex, age_class
 ")
 ```
 
-**When to store a `.duckdb` file vs. a Parquet data lake?**
+::: {.callout-note}
+Use `sf` + `geoarrow` when you need full R spatial modeling/plotting, and DuckDB `spatial` when filtering millions of points or running bounding-box / polygon joins before pulling results into R.
+:::
+
+## Parquet Data Lake vs. `.duckdb` File
 
 | Choose a Parquet Data Lake when... | Choose a `.duckdb` file when... |
 | --- | --- |
 | Sharing data across R, Python, Spark, or GCS | One analyst/project needs fast local joins & views |
-| Appending new years/surveys as partitions | Materializing cleaned intermediate tables |
+| Appending new deployments/years as partitions | Materializing cleaned intermediate tables |
 | Using Positron Data Explorer directly on files | You want views, macros, and indexes in one file |
+| Archiving immutable snapshots in object storage | Working iteratively on a single-file project DB |
 
-# Part 3: Cloud, Enterprise, Docs & Agents {background-color="#073642"}
+::: {.callout-tip}
+You can combine both: store canonical inputs as partitioned Parquet files and create lightweight views inside a project `.duckdb` file that query them on the fly.
+:::
+
+# Part 3: Cloud, Enterprise, Docs & Agents {background-color="#003366"}
 
 ## "All My Data Is in Oracle / PostgreSQL—Do I Need This?"
 
@@ -398,11 +465,11 @@ dbGetQuery(con, "
 ```{r}
 #| label: extract-from-pg
 #| eval: false
-snapshot_surveys <- function(pg_con, out_dir = here::here("data", "parquet", "surveys")) {
-  tbl(pg_con, "afsc_haul_summary") |>
-    filter(year >= 2015) |>
+snapshot_deployments <- function(pg_con, out_dir = here::here("data", "parquet", "dive_data_parquet")) {
+  tbl(pg_con, "pv_behavior_qa") |>
+    filter(project == "AleutianPv") |>
     collect() |>
-    arrow::write_dataset(out_dir, format = "parquet", partitioning = "year", compression = "zstd")
+    arrow::write_dataset(out_dir, format = "parquet", partitioning = "deployid", compression = "zstd")
 }
 ```
 
@@ -419,69 +486,112 @@ dbExecute(con, "INSTALL httpfs; LOAD httpfs;")
 dbExecute(con, "CREATE SECRET gcs_adc (TYPE GCS, PROVIDER CREDENTIAL_CHAIN);")
 
 # Option B: GCS interoperability HMAC / HKEY credentials (via env vars, never hardcoded)
-dbExecute(con, sprintf("
-  CREATE SECRET gcs_hmac (
-    TYPE GCS,
-    KEY_ID '%s',
-    SECRET '%s'
-  );", Sys.getenv("GCS_HMAC_KEY"), Sys.getenv("GCS_HMAC_SECRET")))
+dbExecute(con, sprintf(
+  "CREATE SECRET gcs_hmac (TYPE GCS, KEY_ID '%s', SECRET '%s');",
+  Sys.getenv("GCS_HMAC_KEY"), Sys.getenv("GCS_HMAC_SECRET")
+))
 
-tbl(con, sql("SELECT * FROM read_parquet('gs://nmfs-ak-telemetry/year=2024/*.parquet')")) |>
-  summarise(n = n(), .by = species) |>
+gcs_uri <- "gs://nmfs-ak-telemetry/aleutian-pv/deployid=PV2016_*/*.parquet"
+tbl(con, sql(sprintf(
+  "SELECT * FROM read_parquet('%s', hive_partitioning = true)", gcs_uri
+))) |>
+  filter(dt_type == "dive_mid", qa_status == "include") |>
+  summarise(n_dives = n(), .by = c(sex, age_class)) |>
   collect()
 ```
 
 ## Documenting Parquet Datasets with Posit's `data-dict`
 
-Parquet stores column *types*, not ecological meaning. Posit's **`data-dict`** (`datadict` on CRAN; `data-dict.tidyverse.org`) pairs a diffable `data-dict.yaml` contract with Parquet files:
+Parquet stores column *types*, not ecological meaning (e.g., that `dt` is UTC or what `qa_status` codes mean). Posit's **`data-dict`** pairs a diffable `data-dict.yaml` contract with Parquet files:
 
+:::: {.columns}
+
+::: {.column width="62%"}
 ```yaml
-# data-dict.yaml (example inspired by data-dict.tidyverse.org/examples/otters.html)
-name: ak-pinniped-telemetry
+name: akhs-aleutian-dive
 tables:
-  - name: seal_telemetry
-    source: { parquet: data/parquet/seal_telemetry.parquet }
+  - name: dive_data
+    source: { parquet: data/parquet/aleutian_dives.parquet }
     columns:
-      - name: species
+      - name: dt_type
         type: enum
-        values: { "Harbor seal": Phoca vitulina, "Steller sea lion": Eumetopias jubatus }
-      - name: max_depth_m
+        values: [dive_start, dive_mid, dive_end,
+                 Argos, FastGPS, capture_location]
+      - name: qa_status
+        type: enum
+        values: [include, exclude_tooDeep, exclude_tooLong_dive]
+      - name: depth_max
         type: number
-        constraints: [required, "max_depth_m >= 0"]
+        description: Max dive depth (m); NA on location rows
+        constraints: ["depth_max >= 0"]
+```
+:::
+
+::: {.column width="38%"}
+```bash
+# Scaffold YAML from Parquet schema
+data-dict draft \
+  data/parquet/aleutian_dives.parquet
+
+# Enforce types & constraints
+data-dict validate-data data-dict.yaml
+
+# Build browsable HTML docs
+data-dict render-spec data-dict.yaml
 ```
 
-```bash
-data-dict draft data/parquet/seal_telemetry.parquet   # scaffold YAML from Parquet schema
-data-dict validate-data data-dict.yaml                # enforce types & constraints
-data-dict render-spec data-dict.yaml                  # build browsable HTML docs
-```
+See `data-dict.tidyverse.org` (`datadict` on CRAN).
+:::
+
+::::
 
 ## Why This Stack Supercharges Reproducibility & AI Agents
 
-- **Reproducible science (`targets` + Parquet + DuckDB):**
-  - Fast incremental builds, explicit types, zero-side-effect queries, project-relative paths
-  - Same data files work identically in R, Python, and SQL
-- **LLM Agents (Posit Assistant, Copilot, etc.):**
-  - Agents can inspect schemas cheaply (`DESCRIBE SELECT * FROM read_parquet(...)`) without loading gigabytes into R
-  - `data-dict.yaml` gives agents exact column definitions, units, and valid codes so they stop guessing variable meanings
+:::: {.columns}
+
+::: {.column width="50%"}
+### Reproducible Science
+
+- `targets` + Parquet + DuckDB gives fast incremental builds, explicit types, zero-side-effect queries, and project-relative paths
+- The exact same Parquet files work identically in R, Python, and SQL
+:::
+
+::: {.column width="50%"}
+### AI Agents (Posit Assistant, Copilot)
+
+- Agents inspect schemas cheaply (`DESCRIBE SELECT * FROM read_parquet(...)`) without loading gigabytes into R
+- `data-dict.yaml` documents units, UTC conventions, and QA codes (`exclude_tooDeep`, `exclude_tooLong_dive`) so agents stop guessing
+:::
+
+::::
 
 ## Starter Project Blueprint & Next Steps
 
-```text
-my-nmfs-project/
-├── R/
-│   ├── 01_extract_to_parquet.R   # Oracle/PG or CSV -> data/parquet/
-│   └── 02_query_helpers.R        # DuckDB + dbplyr helper functions
-├── data/parquet/                 # Partitioned Parquet (local or mirrored to gs://)
-├── data-dict.yaml                # Living schema + biological metadata
-├── analysis.qmd                  # Quarto report querying DuckDB lazily
-└── _targets.R                    # Optional reproducible pipeline
-```
+:::: {.columns}
 
+::: {.column width="56%"}
+```text
+akhs-aleutian-dive/
+├── R/
+│   ├── 01_csv_to_parquet.R  # CSV/DB -> data/parquet/
+│   └── 02_query_helpers.R   # DuckDB + dbplyr helpers
+├── data/parquet/            # Partitioned Parquet (local or gs://)
+├── data-dict.yaml           # Living schema + biological metadata
+├── analysis.qmd             # Quarto report querying DuckDB lazily
+└── _targets.R               # Optional reproducible pipeline
+```
+:::
+
+::: {.column width="44%"}
 **Try it this week:**
 
-1. Open an existing `.csv` or `.parquet` in Positron's **Data Explorer**
-2. Convert one heavy project dataset with `arrow::write_parquet(..., compression = "zstd")`
-3. Replace a slow `readRDS()` / `read_csv()` pipeline with `tbl(con, "read_parquet(...)")`
+1. Open a `.csv` or `.parquet` in Positron's **Data Explorer**
+2. Convert one heavy file with DuckDB `COPY ... (FORMAT PARQUET, COMPRESSION ZSTD)` or `arrow::write_parquet()`
+3. Replace a slow `readRDS()` / `read_csv()` call with `tbl(con, "read_parquet(...)")`
+:::
 
+::::
+
+::: {.compact-resources}
 **Resources:** `arrow.apache.org` · `duckdb.org` · `data-dict.tidyverse.org` · `positron.posit.co`
+:::

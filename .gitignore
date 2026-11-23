@@ -53,3 +53,7 @@ rsconnect/
 src/*.o
 src/*.so
 src/*.dll
+
+# Local project data (gitignored; see R/prepare_aleutian_data.R)
+data/
+

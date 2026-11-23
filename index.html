@@ -6,11 +6,11 @@
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-dark-204e14f15910316c170267f8d0a55226.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-7b1528b1cba7e9f63f59baa7408a6f56.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.11.9">
 
   <meta name="author" content="NMFS Alaska / North Pacific R User Group">
-  <meta name="dcterms.date" content="2026-11-20">
+  <meta name="dcterms.date" content="2026-11-23">
   <title>Modern Tabular Workflows in R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -63,46 +63,46 @@
         -khtml-user-select: none; -moz-user-select: none;
         -ms-user-select: none; user-select: none;
         padding: 0 4px; width: 4em;
+        color: #767676;
       }
-    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #767676;  padding-left: 4px; }
     div.sourceCode
-      { color: #f8f8f2; background-color: #2e3440; }
+      { color: #545454; background-color: #fefefe; }
     @media screen {
     pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
     }
-    code span { color: #f8f8f2; } /* Normal */
-    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
-    code span.an { color: #75715e; } /* Annotation */
-    code span.at { color: #f92672; } /* Attribute */
-    code span.bn { color: #ae81ff; } /* BaseN */
-    code span.bu { color: #66d9ef; } /* BuiltIn */
-    code span.cf { color: #f92672; } /* ControlFlow */
-    code span.ch { color: #e6db74; } /* Char */
-    code span.cn { color: #ae81ff; } /* Constant */
-    code span.co { color: #75715e; } /* Comment */
-    code span.cv { color: #75715e; } /* CommentVar */
-    code span.do { color: #75715e; } /* Documentation */
-    code span.dt { color: #66d9ef; font-style: italic; } /* DataType */
-    code span.dv { color: #ae81ff; } /* DecVal */
-    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
-    code span.ex { color: #a6e22e; font-weight: bold; } /* Extension */
-    code span.fl { color: #ae81ff; } /* Float */
-    code span.fu { color: #a6e22e; } /* Function */
-    code span.im { color: #f92672; } /* Import */
-    code span.in { color: #f1fa8c; } /* Information */
-    code span.kw { color: #f92672; } /* Keyword */
-    code span.op { color: #f8f8f2; } /* Operator */
-    code span.ot { color: #a6e22e; } /* Other */
-    code span.pp { color: #f92672; } /* Preprocessor */
-    code span.re { color: #75715e; } /* RegionMarker */
-    code span.sc { color: #ae81ff; } /* SpecialChar */
-    code span.ss { color: #e6db74; } /* SpecialString */
-    code span.st { color: #e6db74; } /* String */
-    code span.va { color: #f8f8f2; } /* Variable */
-    code span.vs { color: #e6db74; } /* VerbatimString */
-    code span.wa { color: #ff5555; } /* Warning */
+    code span { color: #545454; } /* Normal */
+    code span.al { color: #7928a1; } /* Alert */
+    code span.an { color: #696969; } /* Annotation */
+    code span.at { color: #a55a00; } /* Attribute */
+    code span.bn { color: #7928a1; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #d91e18; } /* ControlFlow */
+    code span.ch { color: #008000; } /* Char */
+    code span.cn { color: #d91e18; } /* Constant */
+    code span.co { color: #696969; } /* Comment */
+    code span.cv { color: #696969; font-style: italic; } /* CommentVar */
+    code span.do { color: #696969; font-style: italic; } /* Documentation */
+    code span.dt { color: #7928a1; } /* DataType */
+    code span.dv { color: #7928a1; } /* DecVal */
+    code span.er { color: #7928a1; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #a55a00; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #696969; } /* Information */
+    code span.kw { color: #d91e18; } /* Keyword */
+    code span.op { color: #00769e; } /* Operator */
+    code span.ot { color: #d91e18; } /* Other */
+    code span.pp { color: #7928a1; } /* Preprocessor */
+    code span.sc { color: #00769e; } /* SpecialChar */
+    code span.ss { color: #008000; } /* SpecialString */
+    code span.st { color: #008000; } /* String */
+    code span.va { color: #a55a00; } /* Variable */
+    code span.vs { color: #008000; } /* VerbatimString */
+    code span.wa { color: #696969; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-48423d10517b3c47200df7a40d12d9cb.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-3a73374677e317d12326a15f8d6dc69f.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -194,16 +194,13 @@
       margin-right: 0; 
     }
   </style>
-  <meta name="mermaid-theme" content="dark">
-  <script src="index_files/libs/quarto-diagram/mermaid.min.js"></script>
-  <script src="index_files/libs/quarto-diagram/mermaid-init.js"></script>
-  <link href="index_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
+  <script src="index_files/libs/quarto-diagram/mermaid-postprocess-shim.js"></script>
 </head>
-<body class="quarto-dark">
+<body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" class="quarto-title-block">
   <h1 class="title">Modern Tabular Workflows in R</h1>
   <p class="subtitle">Apache Parquet &amp; DuckDB for Marine Mammal and Fisheries Science</p>
 
@@ -215,7 +212,7 @@ NMFS Alaska / North Pacific R User Group
 </div>
 </div>
 
-  <p class="date">2026-11-20</p>
+  <p class="date">2026-11-23</p>
 </section>
 <section id="why-are-we-talking-about-file-formats" class="slide level2">
 <h2>Why Are We Talking About File Formats?</h2>
@@ -255,7 +252,7 @@ NMFS Alaska / North Pacific R User Group
 <tbody>
 <tr class="odd">
 <td><strong>CSV</strong></td>
-<td>Slow text parsing; no schema or types (<code>0012</code> becomes <code>12</code>); must read all columns/rows; no nested or spatial types</td>
+<td>Slow text parsing; fragile type guessing (<code>NA</code>s turn numeric columns into text); must scan all rows; no nested or spatial types</td>
 </tr>
 <tr class="even">
 <td><strong><code>.rds</code> / <code>.RData</code></strong></td>
@@ -263,47 +260,134 @@ NMFS Alaska / North Pacific R User Group
 </tr>
 </tbody>
 </table>
-<p>When you only need <code>species</code> and <code>max_depth_m</code> for 2024, reading a 2 GB CSV or <code>.rds</code> still pays the full I/O and memory cost.</p>
+<p>When you only need <code>sex</code>, <code>age_class</code>, and <code>depth_max</code> for QA-valid dives, reading a 286 MB CSV or <code>.rds</code> still pays the full I/O and memory cost.</p>
 </section>
 <section id="todays-stack-at-a-glance" class="slide level2">
 <h2>Today’s Stack at a Glance</h2>
-<div class="cell" data-reveal="true" data-fig-width="9.5" data-layout-align="default">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a>flowchart LR</span>
-<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a>  SRC["Source Data&lt;br/&gt;(CSV, Oracle, PostgreSQL)"] --&gt;|"arrow / sf / R"| PQ["Parquet Data Lake&lt;br/&gt;(Local or gs:// Bucket)"]</span>
-<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a>  PQ --&gt;|"Zero-copy scan"| DUCK["DuckDB Engine&lt;br/&gt;(SQL or dbplyr)"]</span>
-<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a>  PQ --&gt;|"Direct preview"| POS["Positron&lt;br/&gt;Data Explorer"]</span>
-<span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a>  DUCK --&gt;|"Small summary"| R["R / ggplot2 / Quarto"]</span>
-<span id="cb1-6"><a href="" aria-hidden="true" tabindex="-1"></a>  DD["data-dict.yaml"] -.-&gt;|"Validates &amp; documents"| PQ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
 <div>
-
-<pre class="mermaid mermaid-js">flowchart LR
-  SRC["Source Data&lt;br/&gt;(CSV, Oracle, PostgreSQL)"] --&gt;|"arrow / sf / R"| PQ["Parquet Data Lake&lt;br/&gt;(Local or gs:// Bucket)"]
-  PQ --&gt;|"Zero-copy scan"| DUCK["DuckDB Engine&lt;br/&gt;(SQL or dbplyr)"]
-  PQ --&gt;|"Direct preview"| POS["Positron&lt;br/&gt;Data Explorer"]
-  DUCK --&gt;|"Small summary"| R["R / ggplot2 / Quarto"]
-  DD["data-dict.yaml"] -.-&gt;|"Validates &amp; documents"| PQ
-</pre>
+<svg id="mermaid-figure-1" width="1104" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" class="flowchart" style="; display: block; margin: auto auto auto auto" viewbox="0 0 1178.171875 222" role="graphics-document document" aria-roledescription="flowchart-v2" height="442">
+<style>#mermaid-figure-1{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-figure-1 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-figure-1 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-figure-1 .error-icon{fill:#552222;}#mermaid-figure-1 .error-text{fill:#552222;stroke:#552222;}#mermaid-figure-1 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-1 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-1 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-1 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-1 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-1 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-1 .marker{fill:#666;stroke:#666;}#mermaid-figure-1 .marker.cross{stroke:#666;}#mermaid-figure-1 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-1 p{margin:0;}#mermaid-figure-1 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#000000;}#mermaid-figure-1 .cluster-label text{fill:#333;}#mermaid-figure-1 .cluster-label span{color:#333;}#mermaid-figure-1 .cluster-label span p{background-color:transparent;}#mermaid-figure-1 .label text,#mermaid-figure-1 span{fill:#000000;color:#000000;}#mermaid-figure-1 .node rect,#mermaid-figure-1 .node circle,#mermaid-figure-1 .node ellipse,#mermaid-figure-1 .node polygon,#mermaid-figure-1 .node path{fill:#eee;stroke:#999;stroke-width:1px;}#mermaid-figure-1 .rough-node .label text,#mermaid-figure-1 .node .label text,#mermaid-figure-1 .image-shape .label,#mermaid-figure-1 .icon-shape .label{text-anchor:middle;}#mermaid-figure-1 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-1 .rough-node .label,#mermaid-figure-1 .node .label,#mermaid-figure-1 .image-shape .label,#mermaid-figure-1 .icon-shape .label{text-align:center;}#mermaid-figure-1 .node.clickable{cursor:pointer;}#mermaid-figure-1 .root .anchor path{fill:#666!important;stroke-width:0;stroke:#666;}#mermaid-figure-1 .arrowheadPath{fill:#333333;}#mermaid-figure-1 .edgePath .path{stroke:#666;stroke-width:2.0px;}#mermaid-figure-1 .flowchart-link{stroke:#666;fill:none;}#mermaid-figure-1 .edgeLabel{background-color:white;text-align:center;}#mermaid-figure-1 .edgeLabel p{background-color:white;}#mermaid-figure-1 .edgeLabel rect{opacity:0.5;background-color:white;fill:white;}#mermaid-figure-1 .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#mermaid-figure-1 .cluster rect{fill:hsl(0, 0%, 98.9215686275%);stroke:#707070;stroke-width:1px;}#mermaid-figure-1 .cluster text{fill:#333;}#mermaid-figure-1 .cluster span{color:#333;}#mermaid-figure-1 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(-160, 0%, 93.3333333333%);border:1px solid #707070;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-1 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#mermaid-figure-1 rect.text{fill:none;stroke-width:0;}#mermaid-figure-1 .icon-shape,#mermaid-figure-1 .image-shape{background-color:white;text-align:center;}#mermaid-figure-1 .icon-shape p,#mermaid-figure-1 .image-shape p{background-color:white;padding:2px;}#mermaid-figure-1 .icon-shape rect,#mermaid-figure-1 .image-shape rect{opacity:0.5;background-color:white;fill:white;}#mermaid-figure-1 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#mermaid-figure-1 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#mermaid-figure-1 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker id="mermaid-1795472066877_flowchart-v2-pointEnd" class="marker flowchart-v2" viewbox="0 0 10 10" refx="5" refy="5" markerunits="userSpaceOnUse" markerwidth="8" markerheight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1795472066877_flowchart-v2-pointStart" class="marker flowchart-v2" viewbox="0 0 10 10" refx="4.5" refy="5" markerunits="userSpaceOnUse" markerwidth="8" markerheight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1795472066877_flowchart-v2-circleEnd" class="marker flowchart-v2" viewbox="0 0 10 10" refx="11" refy="5" markerunits="userSpaceOnUse" markerwidth="11" markerheight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1795472066877_flowchart-v2-circleStart" class="marker flowchart-v2" viewbox="0 0 10 10" refx="-1" refy="5" markerunits="userSpaceOnUse" markerwidth="11" markerheight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1795472066877_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewbox="0 0 11 11" refx="12" refy="5.2" markerunits="userSpaceOnUse" markerwidth="11" markerheight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1795472066877_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewbox="0 0 11 11" refx="-1" refy="5.2" markerunits="userSpaceOnUse" markerwidth="11" markerheight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M191.984,53L205.549,53C219.115,53,246.245,53,272.741,57.235C299.238,61.47,325.101,69.939,338.033,74.174L350.964,78.409" id="L_SRC_PQ_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SRC_PQ_0" data-points="W3sieCI6MTkxLjk4NDM3NSwieSI6NTN9LHsieCI6MjczLjM3NSwieSI6NTN9LHsieCI6MzU0Ljc2NTYyNSwieSI6NzkuNjUzOTAzODM3NjcwOTJ9XQ==" marker-end="url(#mermaid-1795472066877_flowchart-v2-pointEnd)"></path><path d="M546.203,75.927L559.361,71.106C572.518,66.285,598.833,56.642,624.482,51.821C650.13,47,675.112,47,687.603,47L700.094,47" id="L_PQ_DUCK_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_PQ_DUCK_0" data-points="W3sieCI6NTQ2LjIwMzEyNSwieSI6NzUuOTI2OTU3OTk5NzMxNjN9LHsieCI6NjI1LjE0ODQzNzUsInkiOjQ3fSx7IngiOjcwNC4wOTM3NSwieSI6NDd9XQ==" marker-end="url(#mermaid-1795472066877_flowchart-v2-pointEnd)"></path><path d="M546.203,146.073L559.361,150.894C572.518,155.715,598.833,165.358,625.316,170.179C651.799,175,678.451,175,691.776,175L705.102,175" id="L_PQ_POS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_PQ_POS_0" data-points="W3sieCI6NTQ2LjIwMzEyNSwieSI6MTQ2LjA3MzA0MjAwMDI2ODM3fSx7IngiOjYyNS4xNDg0Mzc1LCJ5IjoxNzV9LHsieCI6NzA5LjEwMTU2MjUsInkiOjE3NX1d" marker-end="url(#mermaid-1795472066877_flowchart-v2-pointEnd)"></path><path d="M871.875,47L885.036,47C898.198,47,924.521,47,950.177,47C975.833,47,1000.823,47,1013.318,47L1025.813,47" id="L_DUCK_R_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_DUCK_R_0" data-points="W3sieCI6ODcxLjg3NSwieSI6NDd9LHsieCI6OTUwLjg0Mzc1LCJ5Ijo0N30seyJ4IjoxMDI5LjgxMjUsInkiOjQ3fV0=" marker-end="url(#mermaid-1795472066877_flowchart-v2-pointEnd)"></path><path d="M182.922,169L197.997,169C213.073,169,243.224,169,271.231,164.765C299.238,160.53,325.101,152.061,338.033,147.826L350.964,143.591" id="L_DD_PQ_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_DD_PQ_0" data-points="W3sieCI6MTgyLjkyMTg3NSwieSI6MTY5fSx7IngiOjI3My4zNzUsInkiOjE2OX0seyJ4IjozNTQuNzY1NjI1LCJ5IjoxNDIuMzQ2MDk2MTYyMzI5MDh9XQ==" marker-end="url(#mermaid-1795472066877_flowchart-v2-pointEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(273.375, 53)"><g class="label" data-id="L_SRC_PQ_0" transform="translate(-56.390625, -12)"><foreignobject width="112.78125" height="24">
+<div class="labelBkg" data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="edgeLabel">
+<p>
+DuckDB / arrow
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="edgeLabel" transform="translate(625.1484375, 47)"><g class="label" data-id="L_PQ_DUCK_0" transform="translate(-53.9453125, -12)"><foreignobject width="107.890625" height="24">
+<div class="labelBkg" data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="edgeLabel">
+<p>
+Zero-copy scan
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="edgeLabel" transform="translate(625.1484375, 175)"><g class="label" data-id="L_PQ_POS_0" transform="translate(-52.6484375, -12)"><foreignobject width="105.296875" height="24">
+<div class="labelBkg" data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="edgeLabel">
+<p>
+Direct preview
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="edgeLabel" transform="translate(950.84375, 47)"><g class="label" data-id="L_DUCK_R_0" transform="translate(-53.96875, -12)"><foreignobject width="107.9375" height="24">
+<div class="labelBkg" data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="edgeLabel">
+<p>
+Small summary
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="edgeLabel" transform="translate(273.375, 169)"><g class="label" data-id="L_DD_PQ_0" transform="translate(-40.40625, -24)"><foreignobject width="80.8125" height="48">
+<div class="labelBkg" data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="edgeLabel">
+<p>
+Validates &amp;<br>documents
+</p>
+</span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g class="node default" id="flowchart-SRC-0" transform="translate(99.9921875, 53)"><rect class="basic label-container" style="" x="-91.9921875" y="-39" width="183.984375" height="78"></rect><g class="label" style="" transform="translate(-61.9921875, -24)"><rect></rect><foreignobject width="123.984375" height="48">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel">
+<p>
+Source Data<br>(CSV, Oracle, PG)
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="node default" id="flowchart-PQ-1" transform="translate(450.484375, 111)"><rect class="basic label-container" style="" x="-95.71875" y="-39" width="191.4375" height="78"></rect><g class="label" style="" transform="translate(-65.71875, -24)"><rect></rect><foreignobject width="131.4375" height="48">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel">
+<p>
+Parquet Data Lake<br>(Local or gs://)
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="node default" id="flowchart-DUCK-3" transform="translate(787.984375, 47)"><rect class="basic label-container" style="" x="-83.890625" y="-39" width="167.78125" height="78"></rect><g class="label" style="" transform="translate(-53.890625, -24)"><rect></rect><foreignobject width="107.78125" height="48">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel">
+<p>
+DuckDB Engine<br>(SQL or dbplyr)
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="node default" id="flowchart-POS-5" transform="translate(787.984375, 175)"><rect class="basic label-container" style="" x="-78.8828125" y="-39" width="157.765625" height="78"></rect><g class="label" style="" transform="translate(-48.8828125, -24)"><rect></rect><foreignobject width="97.765625" height="48">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel">
+<p>
+Positron<br>Data Explorer
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="node default" id="flowchart-R-7" transform="translate(1099.9921875, 47)"><rect class="basic label-container" style="" x="-70.1796875" y="-39" width="140.359375" height="78"></rect><g class="label" style="" transform="translate(-40.1796875, -24)"><rect></rect><foreignobject width="80.359375" height="48">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel">
+<p>
+R / ggplot2<br>&amp; Quarto
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="node default" id="flowchart-DD-8" transform="translate(99.9921875, 169)"><rect class="basic label-container" style="" x="-82.9296875" y="-27" width="165.859375" height="54"></rect><g class="label" style="" transform="translate(-52.9296875, -12)"><rect></rect><foreignobject width="105.859375" height="24">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel">
+<p>
+data-dict.yaml
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
 </div>
 <p></p></figure><p></p>
 </div>
 </div>
 </div>
 </section>
-<section id="our-running-example" class="slide level2">
-<h2>Our Running Example</h2>
-<p>A synthetic Alaska pinniped telemetry dataset (<strong>500,000 dive records</strong>, 2019–2025) stored three ways in <code>data/</code>:</p>
+<section id="our-running-example-aleutian-harbor-seal-dives" class="slide level2">
+<h2>Our Running Example: Aleutian Harbor Seal Dives</h2>
+<p>Real NMFS Alaska biologger telemetry from <code>akhs-aleutian-dive</code> (<strong>75 harbor seal tags</strong>, Aleutian Islands, 2014–2017):</p>
+<div class="columns">
+<div class="column" style="width:52%;">
 <ul>
-<li><code>data/raw/seal_telemetry.csv</code></li>
-<li><code>data/raw/seal_telemetry.rds</code></li>
-<li><code>data/parquet/seal_telemetry.parquet</code> (plus Hive-partitioned <code>year=YYYY/</code>)</li>
+<li><strong>1,749,363 total rows</strong> (23 columns)</li>
+<li><strong>532,715 dives</strong> (<code>dive_start</code>, <code>dive_mid</code>, <code>dive_end</code>)</li>
+<li><strong>151k Argos &amp; FastGPS fixes</strong>, capture/release points, and hourly haulout records</li>
 </ul>
-<p>Everything in these slides runs locally with project-relative paths via <code>here::here()</code>.</p>
+</div><div class="column" style="width:48%;">
+<p>Stored locally in gitignored <code>data/</code> three ways:</p>
+<ul>
+<li><code>data/raw/AleutianPv_DiveData4analysis.csv</code> (<strong>286 MB</strong>)</li>
+<li><code>data/raw/AleutianPv_DiveData4analysis.rds</code> (<strong>14 MB</strong>)</li>
+<li><code>data/parquet/aleutian_dives.parquet</code> (<strong>16 MB</strong>) &amp; <code>dive_data_parquet/</code> (75 <code>deployid=.../</code> partitions)</li>
+</ul>
+</div></div>
 </section>
 <section>
-<section id="part-1-apache-parquet" class="title-slide slide level1 center" data-background-color="#073642">
+<section id="part-1-apache-parquet" class="title-slide slide level1" data-background-color="#003366">
 <h1>Part 1: Apache Parquet</h1>
 
 </section>
@@ -311,7 +395,7 @@ NMFS Alaska / North Pacific R User Group
 <h2>Where Parquet Came From</h2>
 <ul>
 <li><strong>2013:</strong> Developed by Twitter and Cloudera, inspired by Google’s <em>Dremel</em> paper on nested columnar storage</li>
-<li><strong>Design goal:</strong> An open, language-neutral format built for <em>analytical</em> reads (scan 3 columns across 50M rows) rather than row-by-row editing</li>
+<li><strong>Design goal:</strong> An open, language-neutral format built for <em>analytical</em> reads (scan 4 columns across millions of rows) rather than row-by-row editing</li>
 <li>Now the standard storage layer across R (<code>arrow</code>, <code>nanoparquet</code>), Python (<code>polars</code>, <code>pandas</code>, <code>pyarrow</code>), DuckDB, Spark, and BigQuery</li>
 </ul>
 </section>
@@ -322,43 +406,42 @@ NMFS Alaska / North Pacific R User Group
 <li><strong>Column projection:</strong> Read only the columns your query touches</li>
 <li><strong>Predicate pushdown:</strong> Skip entire row groups using stored <code>min</code>/<code>max</code> statistics</li>
 <li><strong>Better compression:</strong> Similar values sit next to each other (dictionary + RLE + Zstd)</li>
-<li><strong>Strict types:</strong> Dates, timestamps, integers, lists, and structs stay intact</li>
+<li><strong>Strict types:</strong> Dates, timestamps, doubles, lists, and structs stay intact</li>
 </ul>
 </section>
-<section id="benchmark-csv-vs.-.rds-vs.-parquet-duckdb" class="slide level2">
+<section id="benchmark-csv-vs.-.rds-vs.-parquet-duckdb" class="slide level2 smaller-code">
 <h2>Benchmark: CSV vs.&nbsp;<code>.rds</code> vs.&nbsp;Parquet + DuckDB</h2>
-<p>Let’s measure file size and the time to compute mean dive depth by species for <code>year == 2024</code> across 500,000 rows:</p>
+<p>Mean <code>depth_max</code> by <code>sex</code> and <code>age_class</code> across QA-valid dive midpoints (<strong>1.75M rows</strong>):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>csv_path <span class="ot">&lt;-</span> <span class="st">"data/raw/seal_telemetry.csv"</span></span>
-<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a>rds_path <span class="ot">&lt;-</span> <span class="st">"data/raw/seal_telemetry.rds"</span></span>
-<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a>pq_path  <span class="ot">&lt;-</span> <span class="st">"data/parquet/seal_telemetry.parquet"</span></span>
-<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a>sizes_mb <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">file.size</span>(<span class="fu">c</span>(csv_path, rds_path, pq_path)) <span class="sc">/</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb2-6"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="" aria-hidden="true" tabindex="-1"></a>t_csv <span class="ot">&lt;-</span> <span class="fu">system.time</span>(</span>
-<span id="cb2-8"><a href="" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(csv_path, <span class="at">col_select =</span> <span class="fu">c</span>(species, year, max_depth_m), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-9"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2024</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-10"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_depth =</span> <span class="fu">mean</span>(max_depth_m, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> species)</span>
-<span id="cb2-11"><a href="" aria-hidden="true" tabindex="-1"></a>)[[<span class="st">"elapsed"</span>]]</span>
-<span id="cb2-12"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="" aria-hidden="true" tabindex="-1"></a>t_rds <span class="ot">&lt;-</span> <span class="fu">system.time</span>(</span>
-<span id="cb2-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">readRDS</span>(rds_path) <span class="sc">|&gt;</span></span>
-<span id="cb2-15"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2024</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-16"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_depth =</span> <span class="fu">mean</span>(max_depth_m, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> species)</span>
-<span id="cb2-17"><a href="" aria-hidden="true" tabindex="-1"></a>)[[<span class="st">"elapsed"</span>]]</span>
-<span id="cb2-18"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>())</span>
-<span id="cb2-20"><a href="" aria-hidden="true" tabindex="-1"></a>t_duck <span class="ot">&lt;-</span> <span class="fu">system.time</span>(</span>
-<span id="cb2-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl</span>(con, <span class="fu">sprintf</span>(<span class="st">"read_parquet('%s')"</span>, pq_path)) <span class="sc">|&gt;</span></span>
-<span id="cb2-22"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2024</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-23"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_depth =</span> <span class="fu">mean</span>(max_depth_m, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> species) <span class="sc">|&gt;</span></span>
-<span id="cb2-24"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span>
-<span id="cb2-25"><a href="" aria-hidden="true" tabindex="-1"></a>)[[<span class="st">"elapsed"</span>]]</span>
-<span id="cb2-26"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a>csv_path <span class="ot">&lt;-</span> <span class="st">"data/raw/AleutianPv_DiveData4analysis.csv"</span></span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a>rds_path <span class="ot">&lt;-</span> <span class="st">"data/raw/AleutianPv_DiveData4analysis.rds"</span></span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a>pq_path  <span class="ot">&lt;-</span> <span class="st">"data/parquet/aleutian_dives.parquet"</span></span>
+<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a>sizes_mb <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">file.size</span>(<span class="fu">c</span>(csv_path, rds_path, pq_path)) <span class="sc">/</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="" aria-hidden="true" tabindex="-1"></a>summarise_dives <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-7"><a href="" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(dt_type <span class="sc">==</span> <span class="st">"dive_mid"</span>, qa_status <span class="sc">==</span> <span class="st">"include"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_depth =</span> <span class="fu">mean</span>(depth_max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(sex, age_class))</span>
+<span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-11"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="" aria-hidden="true" tabindex="-1"></a>t_csv <span class="ot">&lt;-</span> <span class="fu">system.time</span>(</span>
+<span id="cb1-13"><a href="" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb1-14"><a href="" aria-hidden="true" tabindex="-1"></a>    csv_path, <span class="at">col_select =</span> <span class="fu">c</span>(sex, age_class, dt_type, qa_status, depth_max),</span>
+<span id="cb1-15"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-16"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">summarise_dives</span>()</span>
+<span id="cb1-17"><a href="" aria-hidden="true" tabindex="-1"></a>)[[<span class="st">"elapsed"</span>]]</span>
+<span id="cb1-18"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="" aria-hidden="true" tabindex="-1"></a>t_rds <span class="ot">&lt;-</span> <span class="fu">system.time</span>(<span class="fu">readRDS</span>(rds_path) <span class="sc">|&gt;</span> <span class="fu">summarise_dives</span>())[[<span class="st">"elapsed"</span>]]</span>
+<span id="cb1-20"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>())</span>
+<span id="cb1-22"><a href="" aria-hidden="true" tabindex="-1"></a>t_duck <span class="ot">&lt;-</span> <span class="fu">system.time</span>(</span>
+<span id="cb1-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl</span>(con, <span class="fu">sprintf</span>(<span class="st">"read_parquet('%s')"</span>, pq_path)) <span class="sc">|&gt;</span> <span class="fu">summarise_dives</span>() <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span>
+<span id="cb1-24"><a href="" aria-hidden="true" tabindex="-1"></a>)[[<span class="st">"elapsed"</span>]]</span>
+<span id="cb1-25"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="benchmark-results-500k-rows" class="slide level2">
-<h2>Benchmark Results (500k Rows)</h2>
+<section id="benchmark-results-1.75m-rows-75-tags" class="slide level2">
+<h2>Benchmark Results (1.75M Rows, 75 Tags)</h2>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top">
@@ -381,22 +464,22 @@ NMFS Alaska / North Pacific R User Group
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">CSV (readr)</td>
-<td style="text-align: right;">48.42</td>
-<td style="text-align: right;">0.178</td>
+<td style="text-align: right;">285.52</td>
+<td style="text-align: right;">0.881</td>
 <td style="text-align: left;">Yes (untyped)</td>
 <td style="text-align: left;">Partial (cols)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">RDS (gzip)</td>
-<td style="text-align: right;">10.38</td>
-<td style="text-align: right;">0.373</td>
+<td style="text-align: right;">14.08</td>
+<td style="text-align: right;">2.429</td>
 <td style="text-align: left;">No (R only)</td>
 <td style="text-align: left;">No (full RAM)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Parquet (zstd) + DuckDB</td>
-<td style="text-align: right;">13.23</td>
-<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">16.49</td>
+<td style="text-align: right;">0.044</td>
 <td style="text-align: left;">Yes (typed)</td>
 <td style="text-align: left;">Yes (cols + row groups)</td>
 </tr>
@@ -413,117 +496,140 @@ NMFS Alaska / North Pacific R User Group
 <p><strong>Tip</strong></p>
 </div>
 <div class="callout-content">
-<p><code>RDS</code> compresses well for R-only snapshots, but forces R to deserialize the entire object into memory. Parquet + DuckDB scans only the matching row groups and 3 columns—and works in Python and SQL too.</p>
+<p><code>RDS</code> shrinks the 286 MB CSV to ~14 MB, but forces R to deserialize all 1.75M rows and 23 columns into memory. Parquet + DuckDB matches that tiny footprint while scanning only 5 columns and qualifying row groups in milliseconds.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="creating-parquet-files-in-r" class="slide level2">
-<h2>Creating Parquet Files in R</h2>
-<p>Use <code>arrow::write_parquet()</code> for single files, or <code>arrow::write_dataset()</code> for <strong>Hive-partitioned</strong> directories (<code>year=2024/part-0.parquet</code>):</p>
+<section id="creating-partitioned-parquet-with-strict-types" class="slide level2">
+<h2>Creating Partitioned Parquet with Strict Types</h2>
+<p>Convert a large CSV straight to <strong>Hive-partitioned</strong> Parquet out-of-core in DuckDB (or use <code>arrow::write_parquet()</code> / <code>arrow::write_dataset()</code> from an R data frame):</p>
+<div class="columns">
+<div class="column" style="width:60%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
-<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Single file with Zstandard compression (great balance for local &amp; GCS)</span></span>
-<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">write_parquet</span>(telemetry, <span class="st">"data/parquet/seal_telemetry.parquet"</span>, <span class="at">compression =</span> <span class="st">"zstd"</span>)</span>
-<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Hive-partitioned directory by year (queries for 1 year skip all other folders)</span></span>
-<span id="cb3-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">write_dataset</span>(</span>
-<span id="cb3-8"><a href="" aria-hidden="true" tabindex="-1"></a>  telemetry,</span>
-<span id="cb3-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"data/parquet/telemetry_partitioned"</span>,</span>
-<span id="cb3-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">format =</span> <span class="st">"parquet"</span>,</span>
-<span id="cb3-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">partitioning =</span> <span class="st">"year"</span>,</span>
-<span id="cb3-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">compression =</span> <span class="st">"zstd"</span></span>
-<span id="cb3-13"><a href="" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbExecute</span>(con, <span class="st">"</span></span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  COPY (</span></span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT * FROM read_csv_auto(</span></span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">      'data/raw/AleutianPv_DiveData4analysis.csv',</span></span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">      nullstr = 'NA',</span></span>
+<span id="cb2-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">      types = {</span></span>
+<span id="cb2-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">        'dt': 'TIMESTAMP',</span></span>
+<span id="cb2-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">        'timeline_start_dt': 'TIMESTAMP',</span></span>
+<span id="cb2-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">        'depth_min': 'DOUBLE', 'depth_max': 'DOUBLE',</span></span>
+<span id="cb2-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">        'duration_min': 'DOUBLE', 'duration_max': 'DOUBLE'</span></span>
+<span id="cb2-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb2-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    )</span></span>
+<span id="cb2-13"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  ) TO 'data/parquet/dive_data_parquet' (</span></span>
+<span id="cb2-14"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    FORMAT PARQUET, PARTITION_BY (deployid),</span></span>
+<span id="cb2-15"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    COMPRESSION ZSTD, OVERWRITE_OR_IGNORE</span></span>
+<span id="cb2-16"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  );</span></span>
+<span id="cb2-17"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column smaller-code" style="width:40%;">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Real-world typing gotcha:</strong> Leading location rows (<code>Argos</code>, <code>capture_location</code>) have <code>NA</code> for dive metrics, so CSV auto-inference can type <code>depth_max</code> as <code>VARCHAR</code>. Declaring <code>types</code> once locks strict <code>DOUBLE</code> and <code>TIMESTAMP</code> types into Parquet.</p>
+</div>
+</div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">"data/parquet/telemetry_partitioned"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/parquet/dive_data_parquet"</span>)</span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">head</span>(p, <span class="dv">3</span>), <span class="fu">sprintf</span>(<span class="st">"... (%d partitions)"</span>, <span class="fu">length</span>(p)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "year=2019" "year=2020" "year=2021" "year=2022" "year=2023" "year=2024"
-[7] "year=2025"</code></pre>
+<pre><code>[1] "deployid=PV2014_2001_10A0193" "deployid=PV2014_2002_13A0249"
+[3] "deployid=PV2014_2003_14A0117" "... (75 partitions)"         </code></pre>
 </div>
 </div>
+</div></div>
 </section>
 <section id="nested-parquet-files-in-r" class="slide level2">
 <h2>Nested Parquet Files in R</h2>
-<p>Marine mammal telemetry is hierarchical: one deployment has many dives. Parquet supports <strong>list-of-struct</strong> columns natively—no need to duplicate metadata across 500k rows.</p>
+<p>Biologger telemetry is hierarchical: one tag deployment (<code>deployid</code>) has thousands of dives. Parquet stores <strong>list-of-struct</strong> columns natively—no need to repeat tag metadata on every row:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>nested_dives <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">deploy_id =</span> <span class="fu">c</span>(<span class="st">"AK0001"</span>, <span class="st">"AK0002"</span>),</span>
-<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">species =</span> <span class="fu">c</span>(<span class="st">"Harbor seal"</span>, <span class="st">"Steller sea lion"</span>),</span>
-<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">dives =</span> <span class="fu">list</span>(</span>
-<span id="cb6-5"><a href="" aria-hidden="true" tabindex="-1"></a>    tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">dive_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">max_depth_m =</span> <span class="fu">c</span>(<span class="fl">42.5</span>, <span class="fl">118.0</span>, <span class="fl">65.2</span>)),</span>
-<span id="cb6-6"><a href="" aria-hidden="true" tabindex="-1"></a>    tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">dive_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">max_depth_m =</span> <span class="fu">c</span>(<span class="fl">88.1</span>, <span class="fl">140.3</span>))</span>
-<span id="cb6-7"><a href="" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-8"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-9"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="" aria-hidden="true" tabindex="-1"></a>nested_path <span class="ot">&lt;-</span> <span class="st">"data/parquet/seal_dives_nested.parquet"</span></span>
-<span id="cb6-11"><a href="" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">write_parquet</span>(nested_dives, nested_path)</span>
-<span id="cb6-12"><a href="" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">read_parquet</span>(nested_path) <span class="sc">|&gt;</span> tidyr<span class="sc">::</span><span class="fu">unnest</span>(dives)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>nested_dives <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"data/parquet/dive_data_parquet"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a>    deployid <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PV2014_2001_10A0193"</span>, <span class="st">"PV2016_3001_16A0227"</span>),</span>
+<span id="cb5-4"><a href="" aria-hidden="true" tabindex="-1"></a>    dt_type <span class="sc">==</span> <span class="st">"dive_mid"</span>, qa_status <span class="sc">==</span> <span class="st">"include"</span></span>
+<span id="cb5-5"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(deployid, sex, age_class, tbl_identifier, dt, shape, depth_max) <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(dt, <span class="at">n =</span> <span class="dv">2</span>, <span class="at">by =</span> deployid) <span class="sc">|&gt;</span></span>
+<span id="cb5-9"><a href="" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">nest</span>(<span class="at">dives =</span> <span class="fu">c</span>(tbl_identifier, dt, shape, depth_max))</span>
+<span id="cb5-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="" aria-hidden="true" tabindex="-1"></a>nested_path <span class="ot">&lt;-</span> <span class="st">"data/parquet/aleutian_dives_nested.parquet"</span></span>
+<span id="cb5-12"><a href="" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">write_parquet</span>(nested_dives, nested_path)</span>
+<span id="cb5-13"><a href="" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">read_parquet</span>(nested_path) <span class="sc">|&gt;</span> tidyr<span class="sc">::</span><span class="fu">unnest</span>(dives)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 4
-  deploy_id species          dive_id max_depth_m
-  &lt;chr&gt;     &lt;chr&gt;              &lt;int&gt;       &lt;dbl&gt;
-1 AK0001    Harbor seal            1        42.5
-2 AK0001    Harbor seal            2       118  
-3 AK0001    Harbor seal            3        65.2
-4 AK0002    Steller sea lion       1        88.1
-5 AK0002    Steller sea lion       2       140. </code></pre>
+<pre><code># A tibble: 4 × 7
+  deployid    sex   age_class tbl_identifier dt                  shape depth_max
+  &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;              &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;     &lt;dbl&gt;
+1 PV2014_200… Fema… Adult             398191 2014-09-02 19:48:47 U           6  
+2 PV2014_200… Fema… Adult             398193 2014-09-02 20:02:24 Squa…       5.5
+3 PV2016_300… Fema… Adult            1311457 2016-09-13 02:02:31 U          10.5
+4 PV2016_300… Fema… Adult            1311459 2016-09-13 02:22:07 U          20.5</code></pre>
 </div>
 </div>
 </section>
-<section id="spatial-data-in-parquet-geoparquet" class="slide level2">
+<section id="spatial-data-in-parquet-geoparquet" class="slide level2 smaller-code">
 <h2>Spatial Data in Parquet (GeoParquet)</h2>
-<p>Combine <code>sf</code> + <code>geoarrow</code> + <code>arrow</code> to store geometries and explicit coordinate reference systems (e.g., WGS84 <code>EPSG:4326</code> or Alaska Albers <code>EPSG:3338</code>) inside Parquet:</p>
+<p>Project all <strong>75 Aleutian capture locations</strong> (173.9°E–178.7°W across the <strong>180° antimeridian</strong>) to <strong>Alaska Albers (<code>EPSG:3338</code>)</strong> and store geometry + CRS in Parquet:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>haulouts <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(</span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">site =</span> <span class="fu">c</span>(<span class="st">"St. Paul"</span>, <span class="st">"Kodiak"</span>, <span class="st">"Amchitka"</span>),</span>
-<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">lon =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">170.28</span>, <span class="sc">-</span><span class="fl">152.40</span>, <span class="fl">179.10</span>),</span>
-<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> <span class="fu">c</span>(<span class="fl">57.18</span>, <span class="fl">57.79</span>, <span class="fl">51.45</span>)</span>
-<span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb8-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"lon"</span>, <span class="st">"lat"</span>),</span>
-<span id="cb8-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs =</span> <span class="dv">4326</span></span>
-<span id="cb8-9"><a href="" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb8-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Alaska Albers equal-area projection for accurate distance/area analysis</span></span>
-<span id="cb8-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">3338</span>)</span>
-<span id="cb8-12"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="" aria-hidden="true" tabindex="-1"></a>geo_path <span class="ot">&lt;-</span> <span class="st">"data/parquet/haulouts_geo.parquet"</span></span>
-<span id="cb8-14"><a href="" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">as_arrow_table</span>(</span>
-<span id="cb8-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">st_drop_geometry</span>(haulouts), <span class="at">geom =</span> geoarrow<span class="sc">::</span><span class="fu">as_geoarrow_vctr</span>(<span class="fu">st_geometry</span>(haulouts)))</span>
-<span id="cb8-16"><a href="" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb8-17"><a href="" aria-hidden="true" tabindex="-1"></a>  arrow<span class="sc">::</span><span class="fu">write_parquet</span>(geo_path)</span>
-<span id="cb8-18"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">read_parquet</span>(geo_path, <span class="at">as_data_frame =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">st_as_sf</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a>captures_sf <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"data/parquet/dive_data_parquet"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dt_type <span class="sc">==</span> <span class="st">"capture_location"</span>, <span class="sc">!</span><span class="fu">is.na</span>(latitude), <span class="sc">!</span><span class="fu">is.na</span>(longitude)) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(deployid, sex, age_class, longitude, latitude) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>), <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">3338</span>)</span>
+<span id="cb7-7"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="" aria-hidden="true" tabindex="-1"></a>geo_path <span class="ot">&lt;-</span> <span class="st">"data/parquet/aleutian_captures_geo.parquet"</span></span>
+<span id="cb7-9"><a href="" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">as_arrow_table</span>(</span>
+<span id="cb7-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">st_drop_geometry</span>(captures_sf), <span class="at">geom =</span> geoarrow<span class="sc">::</span><span class="fu">as_geoarrow_vctr</span>(<span class="fu">st_geometry</span>(captures_sf)))</span>
+<span id="cb7-11"><a href="" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb7-12"><a href="" aria-hidden="true" tabindex="-1"></a>  arrow<span class="sc">::</span><span class="fu">write_parquet</span>(geo_path)</span>
+<span id="cb7-13"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">read_parquet</span>(geo_path, <span class="at">as_data_frame =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">st_as_sf</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Simple feature collection with 3 features and 1 field
+<pre><code>Simple feature collection with 75 features and 3 fields
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: -1830016 ymin: 535895.3 xmax: 94885.02 ymax: 916944.8
+Bounding box:  xmin: -2129047 ymin: 433502.9 xmax: -826448.9 ymax: 849646.5
 Projected CRS: NAD83 / Alaska Albers
-      site                       geom
-1 St. Paul POINT (-972437.6 916944.8)
-2   Kodiak  POINT (94885.02 866409.3)
-3 Amchitka  POINT (-1830016 535895.3)</code></pre>
+First 3 features:
+                deployid    sex age_class                      geom
+1    PV2014_2001_10A0193 Female     Adult POINT (-1531141 474568.7)
+2 PV2014_2005_R1_15A0888 Female     Adult POINT (-1530998 474614.2)
+3    PV2014_2003_14A0117 Female     Adult POINT (-1531141 474568.7)</code></pre>
 </div>
 </div>
 </section>
 <section id="exploring-parquet-in-positron-what-about-arrow" class="slide level2">
 <h2>Exploring Parquet in Positron &amp; What About <code>arrow</code>?</h2>
-<p><strong>In Positron:</strong> Click any <code>.parquet</code> file in the File Explorer to open it directly in the <strong>Data Explorer</strong> (powered by DuckDB under the hood):</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="positron-data-explorer">Positron Data Explorer</h3>
+<p>Click any <code>.parquet</code> file in the File Explorer to open it directly (powered by DuckDB under the hood):</p>
 <ul>
 <li>Inspect column histograms, missingness, and summary stats without writing code</li>
 <li>Apply ephemeral filters/sorts, or click <strong>Import Data</strong> to generate starter R/Python code</li>
 </ul>
-<p><strong><code>arrow</code> vs.&nbsp;<code>duckdb</code>:</strong></p>
+</div><div class="column" style="width:50%;">
+<h3 id="arrow-vs.-duckdb"><code>arrow</code> vs.&nbsp;<code>duckdb</code></h3>
 <ul>
 <li>Use <strong><code>arrow</code></strong> for reading/writing Parquet, partitioned datasets, and zero-copy Arrow tables</li>
 <li>Use <strong><code>duckdb</code></strong> for SQL, complex joins, window functions, and larger-than-RAM aggregations</li>
-<li>They share memory with zero copying via <code>arrow::to_duckdb()</code> and <code>arrow::to_arrow()</code></li>
+<li>Share memory with zero copying via <code>arrow::to_duckdb()</code> and <code>arrow::to_arrow()</code></li>
 </ul>
+</div></div>
 </section></section>
 <section>
-<section id="part-2-duckdb" class="title-slide slide level1 center" data-background-color="#073642">
+<section id="part-2-duckdb" class="title-slide slide level1" data-background-color="#003366">
 <h1>Part 2: DuckDB</h1>
 
 </section>
@@ -584,12 +690,12 @@ Projected CRS: NAD83 / Alaska Albers
 <h2>Installing &amp; Connecting to DuckDB in R</h2>
 <p>In R, DuckDB is just a standard CRAN package (no separate system installer):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"duckdb"</span>) <span class="co"># or use Positron's Packages pane / pak::pak("duckdb")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"duckdb"</span>) <span class="co"># or use Positron's Packages pane / pak::pak("duckdb")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Connect to an in-memory database (stateless, ideal for querying Parquet) or a <code>.duckdb</code> file:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>())</span>
-<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT version() AS duckdb_version"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>())</span>
+<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT version() AS duckdb_version"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  duckdb_version
 1         v1.5.6</code></pre>
@@ -611,113 +717,152 @@ Projected CRS: NAD83 / Alaska Albers
 </section>
 <section id="querying-parquet-directly-from-duckdb" class="slide level2">
 <h2>Querying Parquet Directly from DuckDB</h2>
-<p>No <code>CREATE TABLE</code> or import step needed—point DuckDB straight at a file or glob of Hive-partitioned Parquet files:</p>
+<p>No <code>CREATE TABLE</code> or import step needed—point DuckDB straight at all 75 deployment-partitioned Parquet files:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>part_glob <span class="ot">&lt;-</span> <span class="st">"data/parquet/telemetry_partitioned/**/*.parquet"</span></span>
-<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="fu">sprintf</span>(<span class="st">"</span></span>
-<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT</span></span>
-<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    year,</span></span>
-<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    species,</span></span>
-<span id="cb13-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(*) AS n_dives,</span></span>
-<span id="cb13-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    ROUND(AVG(max_depth_m), 1) AS mean_depth_m</span></span>
-<span id="cb13-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM read_parquet('%s', hive_partitioning = true)</span></span>
-<span id="cb13-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE year &gt;= 2023 AND quality_flag = 'good'</span></span>
-<span id="cb13-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY year, species</span></span>
-<span id="cb13-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY year DESC, n_dives DESC</span></span>
-<span id="cb13-13"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>, part_glob)) <span class="sc">|&gt;</span></span>
-<span id="cb13-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a>part_glob <span class="ot">&lt;-</span> <span class="st">"data/parquet/dive_data_parquet/**/*.parquet"</span></span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="fu">sprintf</span>(<span class="st">"</span></span>
+<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT</span></span>
+<span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    sex, age_class,</span></span>
+<span id="cb12-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(DISTINCT deployid) AS n_tags,</span></span>
+<span id="cb12-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(*) AS n_dives,</span></span>
+<span id="cb12-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    ROUND(MEDIAN(depth_max), 1) AS median_depth_m</span></span>
+<span id="cb12-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM read_parquet('%s', hive_partitioning = true)</span></span>
+<span id="cb12-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE dt_type = 'dive_mid' AND qa_status = 'include'</span></span>
+<span id="cb12-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY sex, age_class</span></span>
+<span id="cb12-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY sex, age_class</span></span>
+<span id="cb12-13"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>, part_glob))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  year           species n_dives mean_depth_m
-1 2025       Harbor seal   25671         33.8
-2 2025 Northern fur seal   16289        113.3
-3 2025  Steller sea lion   15993         82.3
-4 2025      Bearded seal    6407         54.7
-5 2024       Harbor seal   25616         34.1
-6 2024 Northern fur seal   16254        111.9</code></pre>
+<pre><code>     sex     age_class n_tags n_dives median_depth_m
+1 Female         Adult     21  153845           19.5
+2 Female      Subadult     14  141622           48.0
+3 Female Young of year      7   21820           45.0
+4   Male         Adult     15  108071           39.0
+5   Male      Subadult     13   81417           58.5
+6   Male Young of year      5   25928           76.5</code></pre>
 </div>
 </div>
 </section>
-<section id="complex-queries-duckdb-dbplyr-keep-your-tidyverse" class="slide level2">
+<section id="complex-queries-duckdb-dbplyr-keep-your-tidyverse" class="slide level2 smaller-code">
 <h2>Complex Queries: DuckDB + <code>dbplyr</code> (Keep Your Tidyverse)</h2>
-<p>You do <strong>not</strong> have to give up <code>dplyr</code>. Write standard tidyverse verbs—<code>dbplyr</code> translates them into DuckDB SQL lazily and only pulls results into R when you call <code>collect()</code>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>telemetry_tbl <span class="ot">&lt;-</span> <span class="fu">tbl</span>(</span>
-<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a>  con,</span>
-<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sql</span>(<span class="fu">sprintf</span>(<span class="st">"SELECT * FROM read_parquet('%s', hive_partitioning = true)"</span>, part_glob))</span>
-<span id="cb15-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="" aria-hidden="true" tabindex="-1"></a>summary_query <span class="ot">&lt;-</span> telemetry_tbl <span class="sc">|&gt;</span></span>
-<span id="cb15-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(quality_flag <span class="sc">==</span> <span class="st">"good"</span>, year <span class="sc">&gt;=</span> <span class="dv">2022</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species, region) <span class="sc">|&gt;</span></span>
-<span id="cb15-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb15-10"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_dives =</span> <span class="fu">n</span>(),</span>
-<span id="cb15-11"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">p95_depth_m =</span> <span class="fu">quantile</span>(max_depth_m, <span class="fl">0.95</span>),</span>
-<span id="cb15-12"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb15-13"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb15-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(p95_depth_m))</span>
-<span id="cb15-15"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(summary_query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Write standard tidyverse verbs—<code>dbplyr</code> translates them into DuckDB SQL lazily and only pulls results into R when you call <code>collect()</code>:</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a>dives_tbl <span class="ot">&lt;-</span> <span class="fu">tbl</span>(</span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a>  con,</span>
+<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sql</span>(<span class="fu">sprintf</span>(</span>
+<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SELECT * FROM read_parquet('%s',</span></span>
+<span id="cb14-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">       hive_partitioning = true)"</span>,</span>
+<span id="cb14-6"><a href="" aria-hidden="true" tabindex="-1"></a>    part_glob</span>
+<span id="cb14-7"><a href="" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb14-8"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-9"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="" aria-hidden="true" tabindex="-1"></a>tag_summary <span class="ot">&lt;-</span> dives_tbl <span class="sc">|&gt;</span></span>
+<span id="cb14-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb14-12"><a href="" aria-hidden="true" tabindex="-1"></a>    dt_type <span class="sc">==</span> <span class="st">"dive_mid"</span>,</span>
+<span id="cb14-13"><a href="" aria-hidden="true" tabindex="-1"></a>    qa_status <span class="sc">==</span> <span class="st">"include"</span></span>
+<span id="cb14-14"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb14-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(deployid, sex, age_class) <span class="sc">|&gt;</span></span>
+<span id="cb14-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb14-17"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_dives =</span> <span class="fu">n</span>(),</span>
+<span id="cb14-18"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">p95_depth_m =</span> <span class="fu">quantile</span>(</span>
+<span id="cb14-19"><a href="" aria-hidden="true" tabindex="-1"></a>      depth_max, <span class="fl">0.95</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb14-20"><a href="" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb14-21"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb14-22"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb14-23"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(p95_depth_m))</span>
+<span id="cb14-24"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(tag_summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT
-  species,
-  region,
+  deployid,
+  sex,
+  age_class,
   COUNT(*) AS n_dives,
-  QUANTILE_CONT(max_depth_m, 0.95) AS p95_depth_m
-FROM (SELECT * FROM read_parquet('data/parquet/telemetry_partitioned/**/*.parquet', hive_partitioning = true)) AS q01
-WHERE (quality_flag = 'good') AND ("year" &gt;= 2022.0)
-GROUP BY species, region
+  QUANTILE_CONT(depth_max, 0.95) AS p95_depth_m
+FROM (
+SELECT * FROM read_parquet('data/parquet/dive_data_parquet/**/*.parquet',
+       hive_partitioning = true)
+) AS q01
+WHERE (dt_type = 'dive_mid') AND (qa_status = 'include')
+GROUP BY deployid, sex, age_class
 ORDER BY p95_depth_m DESC</code></pre>
 </div>
-</div>
+</div></div>
 </section>
-<section id="aggregate-in-duckdb-plot-in-ggplot2" class="slide level2">
+<section id="aggregate-in-duckdb-plot-in-ggplot2" class="slide level2 smaller-code">
 <h2>Aggregate in DuckDB, Plot in <code>ggplot2</code></h2>
-<p>Push the 500,000-row aggregation into DuckDB, <code>collect()</code> the small summary table, and hand it straight to <code>ggplot2</code>:</p>
+<p>Push the 532k-dive aggregation into DuckDB for <strong>per-tag medians</strong>, <code>collect()</code> 75 rows, and plot in <code>ggplot2</code>:</p>
 <div class="cell columns column-output-location">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a>telemetry_tbl <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(quality_flag <span class="sc">==</span> <span class="st">"good"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_depth_m =</span> <span class="fu">mean</span>(max_depth_m),</span>
-<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_dives =</span> <span class="fu">n</span>(),</span>
-<span id="cb17-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(species, region)</span>
-<span id="cb17-7"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb17-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb17-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mean_depth_m, <span class="at">y =</span> species)) <span class="sc">+</span></span>
-<span id="cb17-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> n_dives)) <span class="sc">+</span></span>
-<span id="cb17-11"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> region) <span class="sc">+</span></span>
-<span id="cb17-12"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb17-13"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Mean max dive depth (m)"</span>,</span>
-<span id="cb17-14"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
-<span id="cb17-15"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">"Dive count"</span>,</span>
-<span id="cb17-16"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Synthetic Telemetry Summary via DuckDB"</span></span>
-<span id="cb17-17"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb17-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>dives_tbl <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dt_type <span class="sc">==</span> <span class="st">"dive_mid"</span>,</span>
+<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a>         qa_status <span class="sc">==</span> <span class="st">"include"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">med_depth =</span> <span class="fu">median</span>(depth_max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_dives =</span> <span class="fu">n</span>(),</span>
+<span id="cb16-7"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(deployid, sex, age_class)</span>
+<span id="cb16-8"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb16-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-10"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_class =</span> <span class="fu">factor</span>(</span>
+<span id="cb16-11"><a href="" aria-hidden="true" tabindex="-1"></a>    age_class,</span>
+<span id="cb16-12"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"Young of year"</span>, <span class="st">"Subadult"</span>, <span class="st">"Adult"</span>)</span>
+<span id="cb16-13"><a href="" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">|&gt;</span></span>
+<span id="cb16-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(med_depth, age_class)) <span class="sc">+</span></span>
+<span id="cb16-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">width =</span> <span class="fl">0.45</span>) <span class="sc">+</span></span>
+<span id="cb16-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb16-17"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">size =</span> n_dives), <span class="at">alpha =</span> <span class="fl">0.65</span>,</span>
+<span id="cb16-18"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">height =</span> <span class="fl">0.14</span>, <span class="at">seed =</span> <span class="dv">4817</span>)</span>
+<span id="cb16-19"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-20"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> sex) <span class="sc">+</span></span>
+<span id="cb16-21"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-22"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Per-tag median max dive depth (m)"</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb16-23"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">"Valid dives"</span>,</span>
+<span id="cb16-24"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Aleutian Harbor Seal Dive Depth"</span>,</span>
+<span id="cb16-25"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"75 tags, 532,703 QA-valid dives"</span></span>
+<span id="cb16-26"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-27"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb16-28"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="index_files/figure-revealjs/plot-duckdb-summary-1.png" width="1200"></p>
+<p><img data-src="index_files/figure-revealjs/plot-duckdb-summary-1.png" width="1125"></p>
 </figure>
 </div>
 </div>
 </div></div>
 </section>
-<section id="spatial-sql-in-duckdb-.duckdb-vs.-parquet" class="slide level2">
-<h2>Spatial SQL in DuckDB &amp; <code>.duckdb</code> vs.&nbsp;Parquet</h2>
-<p>DuckDB’s <code>spatial</code> extension brings PostGIS-style geometry functions (<code>ST_Point</code>, <code>ST_Transform</code>, <code>ST_Intersects</code>) directly into SQL:</p>
+<section id="spatial-sql-in-duckdb" class="slide level2">
+<h2>Spatial SQL in DuckDB</h2>
+<p>DuckDB’s <code>spatial</code> extension brings PostGIS-style geometry functions (<code>ST_Point</code>, <code>ST_Transform</code>, <code>ST_Intersects</code>) directly into SQL—querying GeoParquet files with zero database setup:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbExecute</span>(con, <span class="st">"INSTALL spatial; LOAD spatial;"</span>)</span>
-<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="st">"</span></span>
-<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT region, COUNT(*) AS n_pts</span></span>
-<span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM read_parquet('data/parquet/haulouts_geo.parquet')</span></span>
-<span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE ST_Intersects(geom, ST_MakeEnvelope(-1000000, 500000, 500000, 1500000))</span></span>
-<span id="cb18-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY region</span></span>
-<span id="cb18-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbExecute</span>(con, <span class="st">"INSTALL spatial; LOAD spatial;"</span>)</span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="st">"</span></span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT sex, age_class, COUNT(*) AS n_captures</span></span>
+<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM read_parquet('data/parquet/aleutian_captures_geo.parquet')</span></span>
+<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE ST_Intersects(geom, ST_MakeEnvelope(-1800000, 400000, -1000000, 900000))</span></span>
+<span id="cb17-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY sex, age_class</span></span>
+<span id="cb17-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><strong>When to store a <code>.duckdb</code> file vs.&nbsp;a Parquet data lake?</strong></p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Use <code>sf</code> + <code>geoarrow</code> when you need full R spatial modeling/plotting, and DuckDB <code>spatial</code> when filtering millions of points or running bounding-box / polygon joins before pulling results into R.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="parquet-data-lake-vs.-.duckdb-file" class="slide level2">
+<h2>Parquet Data Lake vs.&nbsp;<code>.duckdb</code> File</h2>
 <table class="caption-top">
 <colgroup>
 <col style="width: 50%">
@@ -735,18 +880,35 @@ ORDER BY p95_depth_m DESC</code></pre>
 <td>One analyst/project needs fast local joins &amp; views</td>
 </tr>
 <tr class="even">
-<td>Appending new years/surveys as partitions</td>
+<td>Appending new deployments/years as partitions</td>
 <td>Materializing cleaned intermediate tables</td>
 </tr>
 <tr class="odd">
 <td>Using Positron Data Explorer directly on files</td>
 <td>You want views, macros, and indexes in one file</td>
 </tr>
+<tr class="even">
+<td>Archiving immutable snapshots in object storage</td>
+<td>Working iteratively on a single-file project DB</td>
+</tr>
 </tbody>
 </table>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>You can combine both: store canonical inputs as partitioned Parquet files and create lightweight views inside a project <code>.duckdb</code> file that query them on the fly.</p>
+</div>
+</div>
+</div>
 </section></section>
 <section>
-<section id="part-3-cloud-enterprise-docs-agents" class="title-slide slide level1 center" data-background-color="#073642">
+<section id="part-3-cloud-enterprise-docs-agents" class="title-slide slide level1" data-background-color="#003366">
 <h1>Part 3: Cloud, Enterprise, Docs &amp; Agents</h1>
 
 </section>
@@ -759,93 +921,118 @@ ORDER BY p95_depth_m DESC</code></pre>
 <li>Run all exploratory plots, <code>targets</code> pipelines, and models locally against DuckDB + Parquet without repeatedly taxing production DBs</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a>snapshot_surveys <span class="ot">&lt;-</span> <span class="cf">function</span>(pg_con, <span class="at">out_dir =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"parquet"</span>, <span class="st">"surveys"</span>)) {</span>
-<span id="cb19-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl</span>(pg_con, <span class="st">"afsc_haul_summary"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-3"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2015</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-4"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb19-5"><a href="" aria-hidden="true" tabindex="-1"></a>    arrow<span class="sc">::</span><span class="fu">write_dataset</span>(out_dir, <span class="at">format =</span> <span class="st">"parquet"</span>, <span class="at">partitioning =</span> <span class="st">"year"</span>, <span class="at">compression =</span> <span class="st">"zstd"</span>)</span>
-<span id="cb19-6"><a href="" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a>snapshot_deployments <span class="ot">&lt;-</span> <span class="cf">function</span>(pg_con, <span class="at">out_dir =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"parquet"</span>, <span class="st">"dive_data_parquet"</span>)) {</span>
+<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl</span>(pg_con, <span class="st">"pv_behavior_qa"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(project <span class="sc">==</span> <span class="st">"AleutianPv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a>    arrow<span class="sc">::</span><span class="fu">write_dataset</span>(out_dir, <span class="at">format =</span> <span class="st">"parquet"</span>, <span class="at">partitioning =</span> <span class="st">"deployid"</span>, <span class="at">compression =</span> <span class="st">"zstd"</span>)</span>
+<span id="cb18-6"><a href="" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="cloud-ready-querying-gcs-buckets-from-duckdb" class="slide level2">
 <h2>Cloud-Ready: Querying GCS Buckets from DuckDB</h2>
 <p>As NMFS moves data to <strong>GCS (<code>gs://...</code>)</strong>, DuckDB’s <code>httpfs</code> extension queries remote Parquet files via byte-range requests—pulling only needed columns and row groups:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbExecute</span>(con, <span class="st">"INSTALL httpfs; LOAD httpfs;"</span>)</span>
-<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Option A: GCP Application Default Credentials (ADC) / Workload Identity</span></span>
-<span id="cb20-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbExecute</span>(con, <span class="st">"CREATE SECRET gcs_adc (TYPE GCS, PROVIDER CREDENTIAL_CHAIN);"</span>)</span>
-<span id="cb20-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Option B: GCS interoperability HMAC / HKEY credentials (via env vars, never hardcoded)</span></span>
-<span id="cb20-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbExecute</span>(con, <span class="fu">sprintf</span>(<span class="st">"</span></span>
-<span id="cb20-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  CREATE SECRET gcs_hmac (</span></span>
-<span id="cb20-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    TYPE GCS,</span></span>
-<span id="cb20-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    KEY_ID '%s',</span></span>
-<span id="cb20-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">    SECRET '%s'</span></span>
-<span id="cb20-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">  );"</span>, <span class="fu">Sys.getenv</span>(<span class="st">"GCS_HMAC_KEY"</span>), <span class="fu">Sys.getenv</span>(<span class="st">"GCS_HMAC_SECRET"</span>)))</span>
-<span id="cb20-13"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-14"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM read_parquet('gs://nmfs-ak-telemetry/year=2024/*.parquet')"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb20-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> species) <span class="sc">|&gt;</span></span>
-<span id="cb20-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbExecute</span>(con, <span class="st">"INSTALL httpfs; LOAD httpfs;"</span>)</span>
+<span id="cb19-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Option A: GCP Application Default Credentials (ADC) / Workload Identity</span></span>
+<span id="cb19-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbExecute</span>(con, <span class="st">"CREATE SECRET gcs_adc (TYPE GCS, PROVIDER CREDENTIAL_CHAIN);"</span>)</span>
+<span id="cb19-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Option B: GCS interoperability HMAC / HKEY credentials (via env vars, never hardcoded)</span></span>
+<span id="cb19-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbExecute</span>(con, <span class="fu">sprintf</span>(</span>
+<span id="cb19-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CREATE SECRET gcs_hmac (TYPE GCS, KEY_ID '%s', SECRET '%s');"</span>,</span>
+<span id="cb19-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Sys.getenv</span>(<span class="st">"GCS_HMAC_KEY"</span>), <span class="fu">Sys.getenv</span>(<span class="st">"GCS_HMAC_SECRET"</span>)</span>
+<span id="cb19-10"><a href="" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb19-11"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="" aria-hidden="true" tabindex="-1"></a>gcs_uri <span class="ot">&lt;-</span> <span class="st">"gs://nmfs-ak-telemetry/aleutian-pv/deployid=PV2016_*/*.parquet"</span></span>
+<span id="cb19-13"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="fu">sprintf</span>(</span>
+<span id="cb19-14"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * FROM read_parquet('%s', hive_partitioning = true)"</span>, gcs_uri</span>
+<span id="cb19-15"><a href="" aria-hidden="true" tabindex="-1"></a>))) <span class="sc">|&gt;</span></span>
+<span id="cb19-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dt_type <span class="sc">==</span> <span class="st">"dive_mid"</span>, qa_status <span class="sc">==</span> <span class="st">"include"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-17"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_dives =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="fu">c</span>(sex, age_class)) <span class="sc">|&gt;</span></span>
+<span id="cb19-18"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="documenting-parquet-datasets-with-posits-data-dict" class="slide level2">
 <h2>Documenting Parquet Datasets with Posit’s <code>data-dict</code></h2>
-<p>Parquet stores column <em>types</em>, not ecological meaning. Posit’s <strong><code>data-dict</code></strong> (<code>datadict</code> on CRAN; <code>data-dict.tidyverse.org</code>) pairs a diffable <code>data-dict.yaml</code> contract with Parquet files:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># data-dict.yaml (example inspired by data-dict.tidyverse.org/examples/otters.html)</span></span>
-<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> ak-pinniped-telemetry</span></span>
-<span id="cb21-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tables</span><span class="kw">:</span></span>
-<span id="cb21-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> seal_telemetry</span></span>
-<span id="cb21-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">source</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="at"> </span><span class="fu">parquet</span><span class="kw">:</span><span class="at"> data/parquet/seal_telemetry.parquet </span><span class="kw">}</span></span>
-<span id="cb21-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">columns</span><span class="kw">:</span></span>
-<span id="cb21-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> species</span></span>
-<span id="cb21-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">type</span><span class="kw">:</span><span class="at"> enum</span></span>
-<span id="cb21-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">values</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="at"> </span><span class="fu">"Harbor seal"</span><span class="kw">:</span><span class="at"> Phoca vitulina</span><span class="kw">,</span><span class="at"> </span><span class="fu">"Steller sea lion"</span><span class="kw">:</span><span class="at"> Eumetopias jubatus </span><span class="kw">}</span></span>
-<span id="cb21-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> max_depth_m</span></span>
-<span id="cb21-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">type</span><span class="kw">:</span><span class="at"> number</span></span>
-<span id="cb21-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">constraints</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">required</span><span class="kw">,</span><span class="at"> </span><span class="st">"max_depth_m &gt;= 0"</span><span class="kw">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">data-dict</span> draft data/parquet/seal_telemetry.parquet   <span class="co"># scaffold YAML from Parquet schema</span></span>
-<span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">data-dict</span> validate-data data-dict.yaml                <span class="co"># enforce types &amp; constraints</span></span>
-<span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">data-dict</span> render-spec data-dict.yaml                  <span class="co"># build browsable HTML docs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Parquet stores column <em>types</em>, not ecological meaning (e.g., that <code>dt</code> is UTC or what <code>qa_status</code> codes mean). Posit’s <strong><code>data-dict</code></strong> pairs a diffable <code>data-dict.yaml</code> contract with Parquet files:</p>
+<div class="columns">
+<div class="column" style="width:62%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> akhs-aleutian-dive</span></span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tables</span><span class="kw">:</span></span>
+<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> dive_data</span></span>
+<span id="cb20-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">source</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="at"> </span><span class="fu">parquet</span><span class="kw">:</span><span class="at"> data/parquet/aleutian_dives.parquet </span><span class="kw">}</span></span>
+<span id="cb20-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">columns</span><span class="kw">:</span></span>
+<span id="cb20-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> dt_type</span></span>
+<span id="cb20-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">type</span><span class="kw">:</span><span class="at"> enum</span></span>
+<span id="cb20-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">values</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">dive_start</span><span class="kw">,</span><span class="at"> dive_mid</span><span class="kw">,</span><span class="at"> dive_end</span><span class="kw">,</span></span>
+<span id="cb20-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">                 Argos</span><span class="kw">,</span><span class="at"> FastGPS</span><span class="kw">,</span><span class="at"> capture_location</span><span class="kw">]</span></span>
+<span id="cb20-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> qa_status</span></span>
+<span id="cb20-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">type</span><span class="kw">:</span><span class="at"> enum</span></span>
+<span id="cb20-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">values</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">include</span><span class="kw">,</span><span class="at"> exclude_tooDeep</span><span class="kw">,</span><span class="at"> exclude_tooLong_dive</span><span class="kw">]</span></span>
+<span id="cb20-13"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> depth_max</span></span>
+<span id="cb20-14"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">type</span><span class="kw">:</span><span class="at"> number</span></span>
+<span id="cb20-15"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">description</span><span class="kw">:</span><span class="at"> Max dive depth (m); NA on location rows</span></span>
+<span id="cb20-16"><a href="" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">constraints</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"depth_max &gt;= 0"</span><span class="kw">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:38%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Scaffold YAML from Parquet schema</span></span>
+<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">data-dict</span> draft <span class="dt">\</span></span>
+<span id="cb21-3"><a href="" aria-hidden="true" tabindex="-1"></a>  data/parquet/aleutian_dives.parquet</span>
+<span id="cb21-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Enforce types &amp; constraints</span></span>
+<span id="cb21-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">data-dict</span> validate-data data-dict.yaml</span>
+<span id="cb21-7"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Build browsable HTML docs</span></span>
+<span id="cb21-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">data-dict</span> render-spec data-dict.yaml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>See <code>data-dict.tidyverse.org</code> (<code>datadict</code> on CRAN).</p>
+</div></div>
 </section>
 <section id="why-this-stack-supercharges-reproducibility-ai-agents" class="slide level2">
 <h2>Why This Stack Supercharges Reproducibility &amp; AI Agents</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="reproducible-science">Reproducible Science</h3>
 <ul>
-<li><strong>Reproducible science (<code>targets</code> + Parquet + DuckDB):</strong>
-<ul>
-<li>Fast incremental builds, explicit types, zero-side-effect queries, project-relative paths</li>
-<li>Same data files work identically in R, Python, and SQL</li>
-</ul></li>
-<li><strong>LLM Agents (Posit Assistant, Copilot, etc.):</strong>
-<ul>
-<li>Agents can inspect schemas cheaply (<code>DESCRIBE SELECT * FROM read_parquet(...)</code>) without loading gigabytes into R</li>
-<li><code>data-dict.yaml</code> gives agents exact column definitions, units, and valid codes so they stop guessing variable meanings</li>
-</ul></li>
+<li><code>targets</code> + Parquet + DuckDB gives fast incremental builds, explicit types, zero-side-effect queries, and project-relative paths</li>
+<li>The exact same Parquet files work identically in R, Python, and SQL</li>
 </ul>
+</div><div class="column" style="width:50%;">
+<h3 id="ai-agents-posit-assistant-copilot">AI Agents (Posit Assistant, Copilot)</h3>
+<ul>
+<li>Agents inspect schemas cheaply (<code>DESCRIBE SELECT * FROM read_parquet(...)</code>) without loading gigabytes into R</li>
+<li><code>data-dict.yaml</code> documents units, UTC conventions, and QA codes (<code>exclude_tooDeep</code>, <code>exclude_tooLong_dive</code>) so agents stop guessing</li>
+</ul>
+</div></div>
 </section>
 <section id="starter-project-blueprint-next-steps" class="slide level2">
 <h2>Starter Project Blueprint &amp; Next Steps</h2>
-<pre class="text"><code>my-nmfs-project/
+<div class="columns">
+<div class="column" style="width:56%;">
+<pre class="text"><code>akhs-aleutian-dive/
 ├── R/
-│   ├── 01_extract_to_parquet.R   # Oracle/PG or CSV -&gt; data/parquet/
-│   └── 02_query_helpers.R        # DuckDB + dbplyr helper functions
-├── data/parquet/                 # Partitioned Parquet (local or mirrored to gs://)
-├── data-dict.yaml                # Living schema + biological metadata
-├── analysis.qmd                  # Quarto report querying DuckDB lazily
-└── _targets.R                    # Optional reproducible pipeline</code></pre>
+│   ├── 01_csv_to_parquet.R  # CSV/DB -&gt; data/parquet/
+│   └── 02_query_helpers.R   # DuckDB + dbplyr helpers
+├── data/parquet/            # Partitioned Parquet (local or gs://)
+├── data-dict.yaml           # Living schema + biological metadata
+├── analysis.qmd             # Quarto report querying DuckDB lazily
+└── _targets.R               # Optional reproducible pipeline</code></pre>
+</div><div class="column" style="width:44%;">
 <p><strong>Try it this week:</strong></p>
 <ol type="1">
-<li>Open an existing <code>.csv</code> or <code>.parquet</code> in Positron’s <strong>Data Explorer</strong></li>
-<li>Convert one heavy project dataset with <code>arrow::write_parquet(..., compression = "zstd")</code></li>
-<li>Replace a slow <code>readRDS()</code> / <code>read_csv()</code> pipeline with <code>tbl(con, "read_parquet(...)")</code></li>
+<li>Open a <code>.csv</code> or <code>.parquet</code> in Positron’s <strong>Data Explorer</strong></li>
+<li>Convert one heavy file with DuckDB <code>COPY ... (FORMAT PARQUET, COMPRESSION ZSTD)</code> or <code>arrow::write_parquet()</code></li>
+<li>Replace a slow <code>readRDS()</code> / <code>read_csv()</code> call with <code>tbl(con, "read_parquet(...)")</code></li>
 </ol>
+</div></div>
+<div class="compact-resources">
 <p><strong>Resources:</strong> <code>arrow.apache.org</code> · <code>duckdb.org</code> · <code>data-dict.tidyverse.org</code> · <code>positron.posit.co</code></p>
+</div>
 
 </section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
-
+<p>NMFS Alaska / North Pacific R User Group — Parquet &amp; DuckDB in R</p>
 </div>
 </div></div>
 
@@ -1023,12 +1210,12 @@ ORDER BY p95_depth_m DESC</code></pre>
         // The "normal" size of the presentation, aspect ratio will be preserved
         // when the presentation is scaled to fit different resolutions. Can be
         // specified using percentage units.
-        width: 1050,
+        width: 1280,
 
-        height: 700,
+        height: 720,
 
         // Factor of the display size that should remain empty around the content
-        margin: 0.1,
+        margin: 8.0e-2,
 
         math: {
           mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',

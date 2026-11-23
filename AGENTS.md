@@ -14,8 +14,11 @@ study marine mammals and sustainable fisheries in Alaska and the North Pacific.
 
 ## Style and Approach
 
-The presentation should use the 'moon' revealjs theme and be typical in look/feel of a
-scientific presentation and software tutorial. Code blocks should be included
+The presentation should use a custom style that is a merge between
+https://github.com/EmilHvitfeldt/quarto-revealjs-template and
+https://github.com/jthomasmock/arrow-dplyr that matches a typical scientific
+presentation and software tutorial. Content should be spread nicely on the
+slide so everything is readable with enough room to breathe. Code blocks should be included
 so users viewing the slide deck later can copy and run code themselves. Code
 blocks should be executable when rendering so results of the code are displayed.
 When helpful, ggplots or mermaid diagrams can be used to convey
